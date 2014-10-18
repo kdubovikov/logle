@@ -1,12 +1,15 @@
 cmake_minimum_required(VERSION 2.8)
-project (glfw_test)
+project(opengl-tutorials)
+
+find_package(PkgConfig REQUIRED)
+pkg_search_module(GLFW REQUIRED glfw3)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_subdirectory(glfw)
-include_directories(glfw/include)
+add_subdirectory(shader)
+include_directories(shader ${GLFW_INCLUDE_DIRS})
 
-add_executable(glfw_test glfw_test.cpp)
-target_link_libraries(glfw_test glfw ${GLFW_LIBRARIES})
+add_executable(opengl-tutorials opengl-tutorials.cpp)
+target_link_libraries(opengl-tutorials shader ${GLFW_STATIC_LIBRARIES})
