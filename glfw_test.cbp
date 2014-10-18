@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="glfw_test" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/glfw_test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/glfw_test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="glfw/CMakeFiles/2.8.12.2/CompilerIdC/CMakeCCompilerId.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/deps/EGL/eglext.h" />
+		<Unit filename="glfw/deps/GL/glext.h" />
+		<Unit filename="glfw/deps/GL/glxext.h" />
+		<Unit filename="glfw/deps/GL/wglext.h" />
+		<Unit filename="glfw/deps/getopt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/deps/getopt.h" />
+		<Unit filename="glfw/deps/tinycthread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/deps/tinycthread.h" />
+		<Unit filename="glfw/examples/boing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/examples/gears.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/examples/heightmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/examples/simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/examples/splitview.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/examples/wave.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/include/GLFW/glfw3.h" />
+		<Unit filename="glfw/include/GLFW/glfw3native.h" />
+		<Unit filename="glfw/src/clipboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/cocoa_gamma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/cocoa_platform.h" />
+		<Unit filename="glfw/src/cocoa_time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/context.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/egl_context.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/egl_platform.h" />
+		<Unit filename="glfw/src/gamma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/glfw_config.h" />
+		<Unit filename="glfw/src/glx_context.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/glx_platform.h" />
+		<Unit filename="glfw/src/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/input.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/internal.h" />
+		<Unit filename="glfw/src/joystick.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/monitor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/nsgl_platform.h" />
+		<Unit filename="glfw/src/time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/wgl_context.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/wgl_platform.h" />
+		<Unit filename="glfw/src/win32_clipboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/win32_gamma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/win32_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/win32_joystick.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/win32_monitor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/win32_platform.h" />
+		<Unit filename="glfw/src/win32_time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/win32_window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/x11_clipboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/x11_gamma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/x11_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/x11_joystick.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/x11_monitor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/x11_platform.h" />
+		<Unit filename="glfw/src/x11_time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/x11_unicode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/src/x11_window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/accuracy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/clipboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/defaults.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/events.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/fsaa.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/gamma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/glfwinfo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/iconify.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/joysticks.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/modes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/peter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/reopen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/sharing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/tearing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/threads.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/title.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw/tests/windows.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="glfw_test.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
