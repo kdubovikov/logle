@@ -34,9 +34,9 @@ bool ShaderManager::checkResults()
     GLint logLength;
     glGetProgramiv(shaderProgramId, GL_INFO_LOG_LENGTH, &logLength);
 
-    char* logMessage = new char[logLength];
-    glGetShaderInfoLog(shaderProgramId, logLength, NULL, &logMessage[0]);
-    linkLog.assign(logMessage, logLength);
+    char* logMessageArr = new char[logLength];
+    glGetShaderInfoLog(shaderProgramId, logLength, NULL, &logMessageArr[0]);
+    logMessage.assign(logMessageArr, logLength);
 
     return result;
 }

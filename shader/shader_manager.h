@@ -2,18 +2,18 @@
 #define SHADER_MANAGER_H
 
 #include <vector>
+#include "abstract_result.h"
 #include "shader.h"
 
-class ShaderManager
+class ShaderManager: public AbstractResult
 {
     private:
-        std::string linkLog;
         std::vector<Shader> shaders;
         GLuint shaderProgramId;
     public:
         void add(Shader& shader);
         void link();
-        bool checkResults();
+        virtual bool checkResults();
         GLuint getShaderProgramId();
         ~ShaderManager();
 };

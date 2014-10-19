@@ -9,8 +9,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+add_subdirectory(core)
 add_subdirectory(shader)
-include_directories(shader ${GLFW_INCLUDE_DIRS})
+include_directories(core shader ${GLFW_INCLUDE_DIRS})
 
 add_executable(opengl-tutorials opengl-tutorials.cpp)
-target_link_libraries(opengl-tutorials shader ${GLFW_STATIC_LIBRARIES})
+target_link_libraries(opengl-tutorials shader core ${GLFW_STATIC_LIBRARIES})

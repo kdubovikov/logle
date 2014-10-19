@@ -16,7 +16,7 @@ Shader::Shader(const char* path)
     }
 }
 
-bool Shader::compile(GLenum shaderType)
+void Shader::compile(GLenum shaderType)
 {
     this->shaderType = shaderType;
     const char* pcode = code.c_str();
@@ -24,28 +24,26 @@ bool Shader::compile(GLenum shaderType)
     shaderId = glCreateShader(shaderType);
     glShaderSource(shaderId, 1, &pcode, NULL);
     glCompileShader(shaderId);
+}
 
+GLuint Shader::getShaderId()
+{
+    return shaderId;
+}
+
+bool Shader::checkResults()
+{
     GLint result;
     glGetShaderiv(shaderId, GL_COMPILE_STATUS, &result);
 
     int logLength;
     glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
 
-    char* logMessage = new char[logLength];
-    glGetShaderInfoLog(shaderId, logLength, NULL, &logMessage[0]);
-    errorMessage.assign(logMessage, logLength);
+    char* logMessageArr = new char[logLength];
+    glGetShaderInfoLog(shaderId, logLength, NULL, &logMessageArr[0]);
+    logMessage.assign(logMessageArr, logLength);
 
     return result;
-}
-
-std::string Shader::getErrorMessage()
-{
-    return errorMessage;
-}
-
-GLuint Shader::getShaderId()
-{
-    return shaderId;
 }
 
 Shader::~Shader()

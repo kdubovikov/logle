@@ -50,12 +50,15 @@ int main(void)
     shaderManager.add(vertex);
     shaderManager.add(fragment);
     shaderManager.link();
-    glUseProgram(shaderManager.getShaderProgramId());
 
     if (!shaderManager.checkResults())
     {
         printf("%s \n", "An error has occured...");
+        return 0;
     }
+
+    glUseProgram(shaderManager.getShaderProgramId());
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
