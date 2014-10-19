@@ -1,6 +1,11 @@
+CMakeCache.txt
 CMakeFiles/**
 bin/**
+shader/CMakeFiles/**
 Makefile
+
+*.cbp
+*.cmake
 
 # Compiled Object files
 *.slo
