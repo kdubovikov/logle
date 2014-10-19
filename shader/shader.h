@@ -9,19 +9,21 @@
 #define GL_GLEXT_PROTOTYPES
 #include <GLFW/glfw3.h>
 
-class Shader {
+class Shader
+{
 private:
-  std::string code;
-  std::string errorMessage;
+    std::string code;
+    std::string errorMessage;
 
-  GLenum shaderType;
-  GLuint shaderId;
+    GLenum shaderType;
+    GLuint shaderId;
 
 public:
-  Shader(const char* path);
-  bool compile(GLenum shaderType);
-  std::string getErrorMessage();
-  ~Shader();
+    Shader(const char* path);
+    bool compile(GLenum shaderType);
+    GLuint getShaderId();
+    std::string getErrorMessage();
+    ~Shader();
 };
 
 #endif
