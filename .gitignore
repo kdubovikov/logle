@@ -2,7 +2,9 @@ CMakeCache.txt
 CMakeFiles/**
 bin/**
 shader/CMakeFiles/**
+core/CMakeFiles/**
 Makefile
+nbproject/**
 
 *.cbp
 *.cmake

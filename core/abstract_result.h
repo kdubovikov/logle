@@ -1,6 +1,4 @@
-#ifndef ABSTRACT_RESULT_H
-#define ABSTRACT_RESULT_H
-
+#pragma once
 #include <string>
 
 class AbstractResult
@@ -11,5 +9,3 @@ public:
     virtual bool checkResults() = 0;
     std::string getLogMessage();
 };
-
-#endif // ABSTRACT_RESULT_H

@@ -1,6 +1,10 @@
+#include <vector>
+
 #include "shader.h"
 
-Shader::Shader(const char* path)
+Shader::Shader(const char* path, GLenum shaderType) :
+    shaderType(shaderType),
+    path(path) 
 {
     std::ifstream shaderFile(path, std::ios::in);
 
@@ -16,14 +20,15 @@ Shader::Shader(const char* path)
     }
 }
 
-void Shader::compile(GLenum shaderType)
+CompilationResult Shader::compile()
 {
-    this->shaderType = shaderType;
     const char* pcode = code.c_str();
-
+    
     shaderId = glCreateShader(shaderType);
+    printf("Compiling shader - %d\n", shaderId);
     glShaderSource(shaderId, 1, &pcode, NULL);
     glCompileShader(shaderId);
+    return checkResults();
 }
 
 GLuint Shader::getShaderId()
@@ -31,22 +36,24 @@ GLuint Shader::getShaderId()
     return shaderId;
 }
 
-bool Shader::checkResults()
+CompilationResult Shader::checkResults()
 {
-    GLint result;
-    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &result);
+    CompilationResult result = {result.OK};
+    GLint glResult = GL_FALSE;
+    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &glResult);
 
     int logLength;
     glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
 
-    char* logMessageArr = new char[logLength];
-    glGetShaderInfoLog(shaderId, logLength, NULL, &logMessageArr[0]);
-    logMessage.assign(logMessageArr, logLength);
-
-    return result;
-}
-
-Shader::~Shader()
-{
-    glDeleteShader(shaderId);
+    char* logMessageArr = new char[logLength + 1];
+    glGetShaderInfoLog(shaderId, logLength, NULL, logMessageArr);
+    
+    if (glResult)
+    {
+        return CompilationResult { CompilationResult::OK, path};
+    } else 
+    {
+        logMessage.assign(logMessageArr, logLength); 
+        return CompilationResult { CompilationResult::ERROR, path, logMessage };
+    }
 }

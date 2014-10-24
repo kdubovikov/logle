@@ -2,15 +2,29 @@
 
 ShaderManager::~ShaderManager()
 {
-    for (Shader& shader : shaders)
+    for (Shader shader : shaders)
     {
-        shader.~Shader();
+        glDeleteShader(shader.getShaderId());
     }
 }
 
 void ShaderManager::add(Shader& shader)
 {
     shaders.push_back(shader);
+}
+
+CompilationResult ShaderManager::compileShaders() 
+{  
+    for (Shader& shader : shaders)
+    {
+        CompilationResult result = shader.compile();
+        if (result.status == CompilationResult::ERROR)
+        {
+            return result;
+        }
+    }
+    
+    return CompilationResult {CompilationResult::OK};
 }
 
 void ShaderManager::link()
@@ -21,11 +35,11 @@ void ShaderManager::link()
     {
         glAttachShader(shaderProgramId, shader.getShaderId());
     }
-
+    
     glLinkProgram(shaderProgramId);
 }
 
-bool ShaderManager::checkResults()
+CompilationResult ShaderManager::checkResults()
 {
     GLint result = GL_FALSE;
     glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &result);
@@ -34,11 +48,19 @@ bool ShaderManager::checkResults()
     GLint logLength;
     glGetProgramiv(shaderProgramId, GL_INFO_LOG_LENGTH, &logLength);
 
-    char* logMessageArr = new char[logLength];
+    char* logMessageArr = new char[logLength + 1];
     glGetShaderInfoLog(shaderProgramId, logLength, NULL, &logMessageArr[0]);
-    logMessage.assign(logMessageArr, logLength);
-
-    return result;
+    
+    if (result)
+    {
+        printf("All is OK...\n");
+        return CompilationResult { CompilationResult::OK };
+    } else 
+    {
+        std::string logMessage;
+        logMessage.assign(logMessageArr, logLength);
+        return CompilationResult { CompilationResult::ERROR, NULL, logMessage };
+    }
 }
 
 GLuint ShaderManager::getShaderProgramId()

@@ -1,21 +1,21 @@
-#ifndef SHADER_MANAGER_H
-#define SHADER_MANAGER_H
+#pragma once
 
 #include <vector>
+#include <functional>
 #include "abstract_result.h"
+#include "compilation_result.h"
 #include "shader.h"
 
-class ShaderManager: public AbstractResult
+class ShaderManager
 {
     private:
-        std::vector<Shader> shaders;
+        std::vector<std::reference_wrapper<Shader>> shaders;
         GLuint shaderProgramId;
     public:
         void add(Shader& shader);
+        CompilationResult compileShaders();
         void link();
-        virtual bool checkResults();
+        CompilationResult checkResults();
         GLuint getShaderProgramId();
         ~ShaderManager();
 };
-
-#endif // SHADER_MANAGER_H

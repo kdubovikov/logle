@@ -1,6 +1,4 @@
-#ifndef SHADER_H
-#define SHADER_H
-
+#pragma once
 #include <string>
 #include <ios>
 #include <fstream>
@@ -9,22 +7,21 @@
 #define GL_GLEXT_PROTOTYPES
 #include <GLFW/glfw3.h>
 
-#include "abstract_result.h"
+#include "compilation_result.h"
 
-class Shader: public AbstractResult
+class Shader
 {
 private:
+    std::string path;
     std::string code;
-
+    std::string logMessage;
     GLenum shaderType;
     GLuint shaderId;
+    
+    CompilationResult checkResults();
 
 public:
-    Shader(const char* path);
-    void compile(GLenum shaderType);
+    Shader(const char* path, GLenum shaderType);
+    CompilationResult compile();
     GLuint getShaderId();
-    virtual bool checkResults();
-    ~Shader();
 };
-
-#endif
