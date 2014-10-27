@@ -1,29 +1,27 @@
 #include <vector>
 
-#include "shader.h"
+#include "Shader.h"
 
-Shader::Shader(const char* path, GLenum shaderType) :
-    shaderType(shaderType),
-    path(path) 
-{
+Shader::Shader(std::string path, GLenum shaderType) :
+shaderType(shaderType),
+path(path) {
     std::ifstream shaderFile(path, std::ios::in);
-
-    if (shaderFile.is_open())
-    {
+    
+    if (shaderFile.is_open()) {
         std::string line = "";
-        while (getline(shaderFile, line))
-        {
+        while (getline(shaderFile, line)) {
             code += "\n" + line;
         }
 
         shaderFile.close();
+    } else {
+        printf("An error has occured while opening shader file %s...\n", path.c_str());
     }
 }
 
-CompilationResult Shader::compile()
-{
+CompilationResult Shader::compile() {
     const char* pcode = code.c_str();
-    
+
     shaderId = glCreateShader(shaderType);
     printf("Compiling shader - %d\n", shaderId);
     glShaderSource(shaderId, 1, &pcode, NULL);
@@ -31,13 +29,11 @@ CompilationResult Shader::compile()
     return checkResults();
 }
 
-GLuint Shader::getShaderId()
-{
+GLuint Shader::getShaderId() {
     return shaderId;
 }
 
-CompilationResult Shader::checkResults()
-{
+CompilationResult Shader::checkResults() {
     CompilationResult result = {result.OK};
     GLint glResult = GL_FALSE;
     glGetShaderiv(shaderId, GL_COMPILE_STATUS, &glResult);
@@ -47,13 +43,13 @@ CompilationResult Shader::checkResults()
 
     char* logMessageArr = new char[logLength + 1];
     glGetShaderInfoLog(shaderId, logLength, NULL, logMessageArr);
-    
-    if (glResult)
-    {
-        return CompilationResult { CompilationResult::OK, path};
-    } else 
-    {
-        logMessage.assign(logMessageArr, logLength); 
-        return CompilationResult { CompilationResult::ERROR, path, logMessage };
+
+    if (glResult) {
+        printf("All is ok...\n");
+        return CompilationResult{CompilationResult::OK, path};
+    } else {
+        printf("%s \n", logMessageArr);
+        logMessage.assign(logMessageArr, logLength);
+        return CompilationResult{CompilationResult::ERROR, path, logMessage};
     }
 }

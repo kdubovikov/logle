@@ -12,7 +12,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(core)
 add_subdirectory(shader)
-include_directories(core shader ${GLFW_INCLUDE_DIRS})
+add_subdirectory(render)
+include_directories(core shader render ${GLFW_INCLUDE_DIRS})
 
-add_executable(opengl-tutorials opengl-tutorials.cpp)
-target_link_libraries(opengl-tutorials shader core ${GLFW_STATIC_LIBRARIES})
+add_executable(triangle Triangle.cpp)
+target_link_libraries(triangle shader core render ${GLFW_STATIC_LIBRARIES})
+
+add_executable(colored_cube ColoredCube.cpp)
+target_link_libraries(colored_cube shader core render ${GLFW_STATIC_LIBRARIES})

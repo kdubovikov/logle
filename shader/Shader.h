@@ -7,21 +7,20 @@
 #define GL_GLEXT_PROTOTYPES
 #include <GLFW/glfw3.h>
 
-#include "compilation_result.h"
+#include "CompilationResult.h"
 
-class Shader
-{
+class Shader {
 private:
     std::string path;
     std::string code;
     std::string logMessage;
     GLenum shaderType;
     GLuint shaderId;
-    
+
     CompilationResult checkResults();
 
 public:
-    Shader(const char* path, GLenum shaderType);
+    Shader(std::string path, GLenum shaderType);
     CompilationResult compile();
     GLuint getShaderId();
 };

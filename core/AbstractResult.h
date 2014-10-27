@@ -1,8 +1,7 @@
 #pragma once
 #include <string>
 
-class AbstractResult
-{
+class AbstractResult {
 protected:
     std::string logMessage;
 public:
