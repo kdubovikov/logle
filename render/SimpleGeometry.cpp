@@ -1,14 +1,10 @@
 #include "SimpleGeometry.h"
 
-SimpleGeometry::SimpleGeometry(size_t bufferSize, const GLfloat* vertexBufferData, const GLfloat* colorBufferData, std::string vertexShaderPath, std::string fragmentShaderPath) :
+SimpleGeometry::SimpleGeometry(size_t bufferSize, Shader& vertexShader, Shader& fragmentShader) :
 shaderManager(ShaderManager()),
-bufferSize(bufferSize),
-vertexShader(Shader(vertexShaderPath, GL_VERTEX_SHADER)),
-fragmentShader(Shader(fragmentShaderPath, GL_FRAGMENT_SHADER)) {
+bufferSize(bufferSize) {
     shaderManager.add(vertexShader);
     shaderManager.add(fragmentShader);
-    vertexBufferId = prepareBuffer(vertexBufferData);
-    colorBufferId = prepareBuffer(colorBufferData);
 }
 
 void SimpleGeometry::prepareShaders() {
@@ -30,6 +26,20 @@ void SimpleGeometry::prepareShaders() {
     }
 }
 
+void SimpleGeometry::prepareBuffers(std::vector<GLfloat>& vertexBufferData, std::vector<GLfloat>& colorBufferData) {
+    vertexBufferId = prepareBuffer(vertexBufferData);
+    colorBufferId = prepareBuffer(colorBufferData);
+}
+
+GLuint SimpleGeometry::prepareBuffer(std::vector<GLfloat>& bufferData) {
+    GLuint bufferId;
+    glGenBuffers(1, &bufferId);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+    glBufferData(GL_ARRAY_BUFFER, bufferData.size() * sizeof(GLfloat), bufferData.data(), GL_STATIC_DRAW);
+    
+    return bufferId;
+}
+
 void SimpleGeometry::render() {
     glUseProgram(shaderManager.getShaderProgramId());
 
@@ -47,16 +57,7 @@ void SimpleGeometry::render() {
     glDisableVertexAttribArray(1);
 }
 
-GLuint SimpleGeometry::prepareBuffer(const GLfloat* bufferData) {
-    GLuint bufferId;
-    glGenBuffers(1, &bufferId);
-    glBindBuffer(GL_ARRAY_BUFFER, bufferId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(bufferData), &bufferData, GL_STATIC_DRAW);
-
-    return bufferId;
-}
-
-ShaderManager SimpleGeometry::getShaderManager() {
+ShaderManager& SimpleGeometry::getShaderManager() {
     return shaderManager;
 }
 

@@ -15,18 +15,17 @@
 
 class SimpleGeometry {
 private:  
-    GLuint vertexBufferId;
-    GLuint colorBufferId;
+
     size_t bufferSize;
     ShaderManager shaderManager;
-    Shader vertexShader;
-    Shader fragmentShader;
-    
-    GLuint prepareBuffer(const GLfloat* bufferData);
+    GLuint vertexBufferId;
+    GLuint colorBufferId;
+    GLuint prepareBuffer(std::vector<GLfloat>& bufferData);
 public:
-    SimpleGeometry(size_t bufferSize, const GLfloat* vertexBufferData, const GLfloat* colorBufferData, std::string vertexShaderPath, std::string fragmentShaderPath);
+    SimpleGeometry(size_t bufferSize, Shader& vertexShader, Shader& fragmentShader);
     void prepareShaders();
+    void prepareBuffers(std::vector<GLfloat>& vertexBufferData, std::vector<GLfloat>& colorBufferData);
     void render();
-    ShaderManager getShaderManager();
+    ShaderManager& getShaderManager();
     ~SimpleGeometry();
 };

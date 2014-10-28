@@ -37,7 +37,7 @@ int main(void) {
 
     // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-    static const GLfloat g_vertex_buffer_data[] = {
+    std::vector<GLfloat> g_vertex_buffer_data = {
         -1.0f, -1.0f, -1.0f,
         -1.0f, -1.0f, 1.0f,
         -1.0f, 1.0f, 1.0f,
@@ -77,7 +77,7 @@ int main(void) {
     };
 
     // One color for each vertex. They were generated randomly.
-    static const GLfloat g_color_buffer_data[] = {
+    std::vector<GLfloat> g_color_buffer_data = {
         0.583f, 0.771f, 0.014f,
         0.609f, 0.115f, 0.436f,
         0.327f, 0.483f, 0.844f,
@@ -115,7 +115,7 @@ int main(void) {
         0.820f, 0.883f, 0.371f,
         0.982f, 0.099f, 0.879f
     };
-
+    
     GLuint VertexArrayID;
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
@@ -132,20 +132,25 @@ int main(void) {
     glm::mat4 Model = glm::mat4(1.0f);
     // Our ModelViewProjection : multiplication of our 3 matrices
     glm::mat4 MVP = Projection * View * Model; // Remember, matrix multiplication is the other way around
-    
-    SimpleGeometry cube(12, g_vertex_buffer_data, g_color_buffer_data, "../shaders/colored/simple.vert", "../shaders/colored/simple.frag");
-    cube.prepareShaders();
 
+    Shader vshader("../shaders/colored/simple.vert", GL_VERTEX_SHADER);
+    Shader fshader("../shaders/colored/simple.frag", GL_FRAGMENT_SHADER);
+    SimpleGeometry cube(12, vshader, fshader);
+    cube.prepareShaders();
+    cube.prepareBuffers(g_vertex_buffer_data, g_color_buffer_data);
+    
     // Get a handle for our "MVP" uniform.
     // Only at initialisation time.
     GLuint MatrixID = glGetUniformLocation(cube.getShaderManager().getShaderProgramId(), "MVP");
-
+  
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        
+        // Send our transformation to the currently bound shader, 
+        // in the "MVP" uniform
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-
+        
         cube.render();
 
         glfwSwapBuffers(window);
@@ -153,8 +158,8 @@ int main(void) {
         /* Poll for and process events */
         glfwPollEvents();
     }
-    
-    cube.~SimpleGeometry();
+
+//    cube.~SimpleGeometry();
     glDeleteVertexArrays(1, &VertexArrayID);
 
     glfwTerminate();
