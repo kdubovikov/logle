@@ -2,7 +2,7 @@
 
 #include "Shader.h"
 
-Shader::Shader(std::string path, GLenum shaderType) :
+Shader::Shader(std::string &path, GLenum shaderType) :
 shaderType(shaderType),
 path(path) {
     std::ifstream shaderFile(path, std::ios::in);

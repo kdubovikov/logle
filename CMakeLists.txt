@@ -20,3 +20,6 @@ target_link_libraries(triangle shader core render ${GLFW_STATIC_LIBRARIES})
 
 add_executable(colored_cube ColoredCube.cpp)
 target_link_libraries(colored_cube shader core render ${GLFW_STATIC_LIBRARIES})
+
+add_executable(textured_cube TexturedCube.cpp)
+target_link_libraries(textured_cube shader core render ${GLFW_STATIC_LIBRARIES} ${CMAKE_SOURCE_DIR}/lib/libsoil2.a)

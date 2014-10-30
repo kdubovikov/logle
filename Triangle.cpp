@@ -40,8 +40,11 @@ int main(void) {
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    Shader vertex("../shaders/simple.vert", GL_VERTEX_SHADER);
-    Shader fragment("../shaders/simple.frag", GL_FRAGMENT_SHADER);
+    std::string vshaderFile("../shaders/simple.vert");
+    std::string fshaderFile("../shaders/simple.frag");
+    Shader vertex(vshaderFile, GL_VERTEX_SHADER);
+    Shader fragment(fshaderFile, GL_FRAGMENT_SHADER);
+    
     ShaderManager shaderManager = ShaderManager();
     shaderManager.add(vertex);
     shaderManager.add(fragment);

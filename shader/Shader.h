@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include <string>
 #include <ios>
 #include <fstream>
@@ -20,7 +20,7 @@ private:
     CompilationResult checkResults();
 
 public:
-    Shader(std::string path, GLenum shaderType);
+    Shader(std::string &path, GLenum shaderType);
     CompilationResult compile();
     GLuint getShaderId();
 };

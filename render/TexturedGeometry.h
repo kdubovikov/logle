@@ -1,5 +1,5 @@
 /* 
- * File:   simple_geometry.h
+ * File:   TextureGeometry.h
  * Author: kdubovikov
  *
  * Created on October 27, 2014, 4:33 PM
@@ -14,19 +14,23 @@
 #include "ShaderManager.h"
 #include "Texture.h"
 
-class SimpleGeometry {
+class TexturedGeometry {
 private:  
     size_t bufferSize;
     ShaderManager shaderManager;
+    Texture texture;
+    
     GLuint vertexBufferId;
-    GLuint colorBufferId;
+    GLuint uvBufferId;
+    GLuint textureUniformId;
 
     GLuint prepareBuffer(const std::vector<GLfloat>& bufferData);
 public:
-    SimpleGeometry(const size_t bufferSize, Shader& vertexShader, Shader& fragmentShader);
+    TexturedGeometry(const size_t bufferSize, Shader& vertexShader, Shader& fragmentShader);
     void prepareShaders();
-    void prepareBuffers(const std::vector<GLfloat>& vertexBufferData, const std::vector<GLfloat>& colorBufferData);
+    void prepareTexture(const std::string &imagePath);
+    void prepareBuffers(const std::vector<GLfloat>& vertexBufferData, const std::vector<GLfloat>& uvBufferData);
     void render();
     ShaderManager& getShaderManager();
-    ~SimpleGeometry();
+    ~TexturedGeometry();
 };

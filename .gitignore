@@ -3,6 +3,7 @@ CMakeFiles/**
 bin/**
 shader/CMakeFiles/**
 core/CMakeFiles/**
+render/CMakeFiles/**
 Makefile
 nbproject/**
 
