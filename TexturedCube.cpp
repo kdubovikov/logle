@@ -2,13 +2,11 @@
 #define GLM_FORCE_RADIANS
 
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
-#include "ShaderManager.h"
 #include "Shader.h"
-#include "CompilationResult.h"
 #include "TexturedGeometry.h"
+#include "Camera.h"
+#include "Scene.h"
 
 int main(void) {
     printf("Hi!\n");
@@ -120,23 +118,20 @@ int main(void) {
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-    // Camera matrix
-    glm::mat4 View = glm::lookAt(
-            glm::vec3(4, 3, -3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(0, 0, 0), // and looks at the origin
-            glm::vec3(0, 1, 0) // Head is up (set to 0,-1,0 to look upside-down)
-            );
-    // Model matrix : an identity matrix (model will be at the origin)
-    glm::mat4 Model = glm::mat4(1.0f);
-    // Our ModelViewProjection : multiplication of our 3 matrices
-    glm::mat4 MVP = Projection * View * Model; // Remember, matrix multiplication is the other way around
-    
+//    glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+//    glm::mat4 View = glm::lookAt(
+//            glm::vec3(4, 3, -3), // Camera is at (4,3,-3), in World Space
+//            glm::vec3(0, 0, 0), // and looks at the origin
+//            glm::vec3(0, 1, 0) // Head is up (set to 0,-1,0 to look upside-down)
+//            );
+//    glm::mat4 Model = glm::mat4(1.0f);
+//    glm::mat4 MVP = Projection * View * Model; // Remember, matrix multiplication is the other way around
+//    
     std::string vshaderFile("../shaders/textured/textured.vert");
     std::string fshaderFile("../shaders/textured/textured.frag");
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
+    
     TexturedGeometry cube(12, vshader, fshader);
     cube.prepareShaders();
     cube.prepareBuffers(g_vertex_buffer_data, g_uv_buffer_data);
@@ -144,19 +139,31 @@ int main(void) {
     std::string texturePath("../textures/numbers.tga");
     cube.prepareTexture(texturePath);
     
+    Camera camera;
+    glm::vec3 translateVector = glm::vec3(4, 3, -3);
+    glm::vec3 lookVector = glm::vec3(0, 0, 0);
+    camera.translate(translateVector);
+    camera.lookAt(lookVector);
+    
+    Scene scene;
+    scene.setCamera(camera);
+    scene.addObject(cube);
+    
+    
     // Get a handle for our "MVP" uniform.
     // Only at initialisation time.
-    GLuint MatrixID = glGetUniformLocation(cube.getShaderManager().getShaderProgramId(), "MVP");
+    //GLuint MatrixID = glGetUniformLocation(cube.getShaderManager().getShaderProgramId(), "MVP");
   
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+        //camera.applyTransformation();
         // Send our transformation to the currently bound shader, 
         // in the "MVP" uniform
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
         
-        cube.render();
+        //cube.render();
+        scene.render();
 
         glfwSwapBuffers(window);
 

@@ -2,7 +2,8 @@
 
 TexturedGeometry::TexturedGeometry(const size_t bufferSize, Shader& vertexShader, Shader& fragmentShader) :
 shaderManager(ShaderManager()),
-bufferSize(bufferSize) {
+bufferSize(bufferSize),
+modelMatrix(glm::mat4(1.0f)) {
     shaderManager.add(vertexShader);
     shaderManager.add(fragmentShader);
 }
@@ -26,6 +27,7 @@ void TexturedGeometry::prepareShaders() {
     }
     
     textureUniformId = glGetUniformLocation(shaderManager.getShaderProgramId(), "textureSampler");
+    mvpUniformId = glGetUniformLocation(shaderManager.getShaderProgramId(), "MVP");
 }
 
 void TexturedGeometry::prepareBuffers(const std::vector<GLfloat>& vertexBufferData, const std::vector<GLfloat>& uvBufferData) {
@@ -38,7 +40,6 @@ void TexturedGeometry::prepareTexture(const std::string& imagePath) {
     texture.prepareTexture();
 }
 
-
 GLuint TexturedGeometry::prepareBuffer(const std::vector<GLfloat>& bufferData) {
     GLuint bufferId;
     glGenBuffers(1, &bufferId);
@@ -46,6 +47,11 @@ GLuint TexturedGeometry::prepareBuffer(const std::vector<GLfloat>& bufferData) {
     glBufferData(GL_ARRAY_BUFFER, bufferData.size() * sizeof(GLfloat), bufferData.data(), GL_STATIC_DRAW);
     
     return bufferId;
+}
+
+void TexturedGeometry::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
+    glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
+    glUniformMatrix4fv(mvpUniformId, 1, GL_FALSE, &mvp[0][0]);
 }
 
 void TexturedGeometry::render() {
@@ -72,6 +78,10 @@ void TexturedGeometry::render() {
 
 ShaderManager& TexturedGeometry::getShaderManager() {
     return shaderManager;
+}
+
+glm::mat4& TexturedGeometry::getModelMatrix() {
+    return modelMatrix;
 }
 
 TexturedGeometry::~TexturedGeometry() {

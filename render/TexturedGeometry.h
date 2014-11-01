@@ -9,10 +9,11 @@
 
 #define GL_GLEXT_PROTOTYPES
 #include <GLFW/glfw3.h>
-#include <functional>
+#include <glm/glm.hpp>
 
-#include "ShaderManager.h"
 #include "Texture.h"
+#include "CompilationResult.h"
+#include "ShaderManager.h"
 
 class TexturedGeometry {
 private:  
@@ -23,6 +24,9 @@ private:
     GLuint vertexBufferId;
     GLuint uvBufferId;
     GLuint textureUniformId;
+    GLuint mvpUniformId;
+    
+    glm::mat4 modelMatrix;
 
     GLuint prepareBuffer(const std::vector<GLfloat>& bufferData);
 public:
@@ -30,7 +34,9 @@ public:
     void prepareShaders();
     void prepareTexture(const std::string &imagePath);
     void prepareBuffers(const std::vector<GLfloat>& vertexBufferData, const std::vector<GLfloat>& uvBufferData);
+    void applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
     void render();
     ShaderManager& getShaderManager();
+    glm::mat4& getModelMatrix();
     ~TexturedGeometry();
 };

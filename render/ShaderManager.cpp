@@ -1,13 +1,5 @@
 #include "ShaderManager.h"
 
-ShaderManager::~ShaderManager() {
-    for (Shader shader : shaders) {
-        glDeleteShader(shader.getShaderId());
-    }
-    
-    glDeleteProgram(shaderProgramId);
-}
-
 void ShaderManager::add(Shader& shader) {
     shaders.push_back(shader);
 }
@@ -56,4 +48,13 @@ CompilationResult ShaderManager::checkResults() {
 GLuint ShaderManager::getShaderProgramId() {
     return shaderProgramId;
 }
+
+ShaderManager::~ShaderManager() {
+    for (Shader shader : shaders) {
+        glDeleteShader(shader.getShaderId());
+    }
+    
+    glDeleteProgram(shaderProgramId);
+}
+
 

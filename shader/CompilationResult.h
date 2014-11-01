@@ -5,6 +5,7 @@
  * Created on October 24, 2014, 11:33 PM
  */
 #pragma once
+#include <string>
 
 struct CompilationResult 
 {
