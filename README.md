@@ -1,5 +1,5 @@
 #opengl-tutorials
-================
+
 ## Description
 This is an [OpenGL tutorials](opengl-tutorial.org) implementation with attempt of making a simple lightweight rendering engine which can be used to create tech demos.
 
