@@ -9,6 +9,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 class Camera {
 private:
@@ -16,12 +17,36 @@ private:
     glm::mat4 projectionMatrix;
     glm::vec3 cameraPosition;
     glm::vec3 lookVector;
+    glm::vec3 upVector;
+    glm::vec3 rightVector;
+    
+    float horizontalAngle;
+    float verticalAngle;
+    float fov;
 public:
     Camera();
     void lookAt(glm::vec3& lookVector);
-    void translate(glm::vec3& cameraPosition);
     void applyTransformation();
     glm::mat4& getViewMatrix();
     glm::mat4& getProjectionMatrix();
+    
+    void computeVectors();
+    
+    glm::vec3 getLookVector() const;
+
+    glm::vec3 getCameraPosition() const;
+    void setCameraPosition(glm::vec3& cameraPosition);
+    
+    float getFov() const;
+    void setFov(float fov);
+    
+    float getHorizontalAngle() const;
+    void substractFromHorizontalAngle(float horizontalAngle);
+    
+    float getVerticalAngle() const;
+    void addToVerticalAngle(float verticalAngle);
+    
+    glm::vec3 getUpVector() const;
+    glm::vec3 getRightVector() const;
 };
 

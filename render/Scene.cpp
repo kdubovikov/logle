@@ -12,21 +12,34 @@ void Scene::addObject(TexturedGeometry& object) {
 }
 
 void Scene::render() {
-    camera.applyTransformation();
+    static double lastTime = glfwGetTime();
+    
+    double currentTime = glfwGetTime();
+    double deltaTime = currentTime - lastTime;
+    
+    inputManager->processInputs(deltaTime);
+    camera->applyTransformation();
     
     for (TexturedGeometry& object : objects) {
-        object.applyTransformation(camera.getViewMatrix(), camera.getProjectionMatrix());
+        object.applyTransformation(camera->getViewMatrix(), camera->getProjectionMatrix());
         object.render();
     }
+    
+    lastTime = currentTime;
 }
 
-Camera& Scene::getCamera() {
+Camera* Scene::getCamera() {
     return camera;
 }
 
-void Scene::setCamera(Camera& camera) {
+void Scene::setCamera(Camera* camera) {
     this->camera = camera;
 }
 
+InputManager* Scene::getInputManager() const {
+    return inputManager;
+}
 
-
+void Scene::setInputManager(InputManager* inputManager) {
+    this->inputManager = inputManager;
+}

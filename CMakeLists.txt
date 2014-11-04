@@ -14,7 +14,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(core)
 add_subdirectory(shader)
 add_subdirectory(render)
-include_directories(core shader render ${GLFW_INCLUDE_DIRS})
+add_subdirectory(input)
+include_directories(core shader render input ${GLFW_INCLUDE_DIRS})
 
 add_executable(triangle Triangle.cpp)
 target_link_libraries(triangle shader core render ${GLFW_STATIC_LIBRARIES})
@@ -24,3 +25,6 @@ target_link_libraries(colored_cube shader core render ${GLFW_STATIC_LIBRARIES})
 
 add_executable(textured_cube TexturedCube.cpp)
 target_link_libraries(textured_cube shader core render ${GLFW_STATIC_LIBRARIES} ${CMAKE_SOURCE_DIR}/lib/libsoil2.a)
+
+add_executable(input_test InputTest.cpp)
+target_link_libraries(input_test shader core render input ${GLFW_STATIC_LIBRARIES} ${CMAKE_SOURCE_DIR}/lib/libsoil2.a)

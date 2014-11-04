@@ -1,0 +1,30 @@
+/* 
+ * File:   InputManager.h
+ * Author: kdubovikov
+ *
+ * Created on November 4, 2014, 9:11 PM
+ */
+#pragma once
+
+#define GL_GLEXT_PROTOTYPES
+#define GLM_FORCE_RADIANS 
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include "../render/Camera.h"
+
+class InputManager {
+private:
+    double mouseXPos;
+    double mouseYPos;
+    GLfloat mouseSpeed;
+    
+    // TODO: change to abstract class (MovableObject)
+    Camera* camera;
+    GLFWwindow* window;
+
+public:
+    InputManager(Camera* camera, GLFWwindow* window);
+    void processInputs(double deltaTime);
+};
+
