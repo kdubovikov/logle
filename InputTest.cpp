@@ -125,9 +125,9 @@ int main(void) {
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
     
-    StaticMesh cube(12, vshader, fshader);
+    StaticMesh cube(vshader, fshader);
     cube.prepareShaders();
-    cube.prepareBuffers(g_vertex_buffer_data, g_uv_buffer_data);
+    cube.prepareBuffers(3, g_vertex_buffer_data, 2, g_uv_buffer_data);
     
     std::string texturePath("../textures/numbers.tga");
     cube.prepareTexture(texturePath);

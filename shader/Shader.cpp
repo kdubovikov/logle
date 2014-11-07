@@ -48,7 +48,6 @@ CompilationResult Shader::checkResults() {
         printf("All is ok...\n");
         return CompilationResult{CompilationResult::OK, path};
     } else {
-        printf("%s \n", logMessageArr);
         logMessage.assign(logMessageArr, logLength);
         return CompilationResult{CompilationResult::ERROR, path, logMessage};
     }

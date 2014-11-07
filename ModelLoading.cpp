@@ -1,0 +1,77 @@
+#define GL_GLEXT_PROTOTYPES
+#define GLM_FORCE_RADIANS
+
+#include <GLFW/glfw3.h>
+
+#include "Shader.h"
+#include "StaticMesh.h"
+#include "Camera.h"
+#include "Scene.h"
+#include "InputManager.h"
+
+int main(void) {
+    printf("Hi!\n");
+    GLFWwindow* window;
+
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
+
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(640, 480, "Model loading", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        return -1;
+    }
+
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
+
+    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    // Accept fragment if it closer to the camera than the former one
+    glDepthFunc(GL_LESS);
+    
+    GLuint VertexArrayID;
+    glGenVertexArrays(1, &VertexArrayID);
+    glBindVertexArray(VertexArrayID);
+
+    std::string vshaderFile("../shaders/textured/textured.vert");
+    std::string fshaderFile("../shaders/textured/textured.frag");
+    Shader vshader(vshaderFile, GL_VERTEX_SHADER);
+    Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
+    
+    StaticMesh cube("../models/cube.obj", vshader, fshader);
+    std::string texturePath("../textures/numbers.tga");
+    cube.prepareTexture(texturePath);
+    
+    Camera* camera = new Camera();
+    glm::vec3 trVec(0, 0, 5);
+    camera->setCameraPosition(trVec);
+    InputManager* inputManager = new InputManager(camera, window);
+    
+    Scene scene;
+    scene.setCamera(camera);
+    scene.setInputManager(inputManager);
+    scene.addObject(cube);
+
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        scene.render();
+
+        glfwSwapBuffers(window);
+
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
+    
+    glDeleteVertexArrays(1, &VertexArrayID);
+
+    glfwTerminate();
+    return 0;
+}

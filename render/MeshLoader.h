@@ -7,9 +7,11 @@
 
 #pragma once
 #include "StaticMesh.h"
+#include <glm/glm.hpp>
+#include <string.h>
 
 class MeshLoader {
 public:
-    static TexturedGeometry load(const std::string& path);
+    static bool load(const std::string& path, std::vector<glm::vec3> & out_vertices, std::vector<glm::vec2> & out_uvs, std::vector<glm::vec3> & out_normals);
 };
 

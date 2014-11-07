@@ -39,6 +39,7 @@ CompilationResult ShaderManager::checkResults() {
         printf("All is OK...\n");
         return CompilationResult{CompilationResult::OK};
     } else {
+        printf("Error - %s\n", logMessageArr);
         std::string logMessage;
         logMessage.assign(logMessageArr, logLength);
         return CompilationResult{CompilationResult::ERROR, "", logMessage};
