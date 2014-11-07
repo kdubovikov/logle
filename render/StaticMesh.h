@@ -15,7 +15,7 @@
 #include "CompilationResult.h"
 #include "ShaderManager.h"
 
-class TexturedGeometry {
+class StaticMesh {
 private:  
     size_t bufferSize;
     ShaderManager shaderManager;
@@ -30,7 +30,7 @@ private:
 
     GLuint prepareBuffer(const std::vector<GLfloat>& bufferData);
 public:
-    TexturedGeometry(const size_t bufferSize, Shader& vertexShader, Shader& fragmentShader);
+    StaticMesh(const size_t bufferSize, Shader& vertexShader, Shader& fragmentShader);
     void prepareShaders();
     void prepareTexture(const std::string &imagePath);
     void prepareBuffers(const std::vector<GLfloat>& vertexBufferData, const std::vector<GLfloat>& uvBufferData);
@@ -38,5 +38,5 @@ public:
     void render();
     ShaderManager& getShaderManager();
     glm::mat4& getModelMatrix();
-    ~TexturedGeometry();
+    ~StaticMesh();
 };

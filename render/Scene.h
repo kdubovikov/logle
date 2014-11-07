@@ -6,7 +6,7 @@
  */
 
 #pragma once
-#include "TexturedGeometry.h"
+#include "StaticMesh.h"
 #include "Camera.h"
 #include "InputManager.h"
 
@@ -17,11 +17,11 @@ class Scene {
 private:
     Camera* camera;
     InputManager* inputManager;
-    std::vector<std::reference_wrapper<TexturedGeometry>> objects;
+    std::vector<std::reference_wrapper<StaticMesh>> objects;
     
     //double lastTime;
 public:
-    void addObject(TexturedGeometry& object);
+    void addObject(StaticMesh& object);
     void render();
     
     void setCamera(Camera* camera);

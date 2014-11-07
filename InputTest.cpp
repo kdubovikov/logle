@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Shader.h"
-#include "TexturedGeometry.h"
+#include "StaticMesh.h"
 #include "Camera.h"
 #include "Scene.h"
 #include "InputManager.h"
@@ -125,7 +125,7 @@ int main(void) {
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
     
-    TexturedGeometry cube(12, vshader, fshader);
+    StaticMesh cube(12, vshader, fshader);
     cube.prepareShaders();
     cube.prepareBuffers(g_vertex_buffer_data, g_uv_buffer_data);
     

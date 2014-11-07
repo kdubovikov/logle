@@ -1,6 +1,6 @@
-#include "TexturedGeometry.h"
+#include "StaticMesh.h"
 
-TexturedGeometry::TexturedGeometry(const size_t bufferSize, Shader& vertexShader, Shader& fragmentShader) :
+StaticMesh::StaticMesh(const size_t bufferSize, Shader& vertexShader, Shader& fragmentShader) :
 shaderManager(ShaderManager()),
 bufferSize(bufferSize),
 modelMatrix(glm::mat4(1.0f)) {
@@ -8,7 +8,7 @@ modelMatrix(glm::mat4(1.0f)) {
     shaderManager.add(fragmentShader);
 }
 
-void TexturedGeometry::prepareShaders() {
+void StaticMesh::prepareShaders() {
     // TODO: add some kind of AbstractResult class and return status
     CompilationResult shaderCompilationResult = shaderManager.compileShaders();
 
@@ -30,17 +30,17 @@ void TexturedGeometry::prepareShaders() {
     mvpUniformId = glGetUniformLocation(shaderManager.getShaderProgramId(), "MVP");
 }
 
-void TexturedGeometry::prepareBuffers(const std::vector<GLfloat>& vertexBufferData, const std::vector<GLfloat>& uvBufferData) {
+void StaticMesh::prepareBuffers(const std::vector<GLfloat>& vertexBufferData, const std::vector<GLfloat>& uvBufferData) {
     vertexBufferId = prepareBuffer(vertexBufferData);
     uvBufferId = prepareBuffer(uvBufferData);
 }
 
-void TexturedGeometry::prepareTexture(const std::string& imagePath) {
+void StaticMesh::prepareTexture(const std::string& imagePath) {
     texture.load(imagePath);
     texture.prepareTexture();
 }
 
-GLuint TexturedGeometry::prepareBuffer(const std::vector<GLfloat>& bufferData) {
+GLuint StaticMesh::prepareBuffer(const std::vector<GLfloat>& bufferData) {
     GLuint bufferId;
     glGenBuffers(1, &bufferId);
     glBindBuffer(GL_ARRAY_BUFFER, bufferId);
@@ -49,12 +49,12 @@ GLuint TexturedGeometry::prepareBuffer(const std::vector<GLfloat>& bufferData) {
     return bufferId;
 }
 
-void TexturedGeometry::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
+void StaticMesh::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
     glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
     glUniformMatrix4fv(mvpUniformId, 1, GL_FALSE, &mvp[0][0]);
 }
 
-void TexturedGeometry::render() {
+void StaticMesh::render() {
     glUseProgram(shaderManager.getShaderProgramId());
 
     glActiveTexture(GL_TEXTURE0);
@@ -76,15 +76,15 @@ void TexturedGeometry::render() {
     glDisableVertexAttribArray(1);
 }
 
-ShaderManager& TexturedGeometry::getShaderManager() {
+ShaderManager& StaticMesh::getShaderManager() {
     return shaderManager;
 }
 
-glm::mat4& TexturedGeometry::getModelMatrix() {
+glm::mat4& StaticMesh::getModelMatrix() {
     return modelMatrix;
 }
 
-TexturedGeometry::~TexturedGeometry() {
+StaticMesh::~StaticMesh() {
     glDeleteBuffers(1, &vertexBufferId);
     glDeleteBuffers(1, &uvBufferId);
 }

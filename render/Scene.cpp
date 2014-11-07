@@ -7,7 +7,7 @@
 
 #include "Scene.h"
 
-void Scene::addObject(TexturedGeometry& object) {
+void Scene::addObject(StaticMesh& object) {
     objects.push_back(object);
 }
 
@@ -20,7 +20,7 @@ void Scene::render() {
     inputManager->processInputs(deltaTime);
     camera->applyTransformation();
     
-    for (TexturedGeometry& object : objects) {
+    for (StaticMesh& object : objects) {
         object.applyTransformation(camera->getViewMatrix(), camera->getProjectionMatrix());
         object.render();
     }
