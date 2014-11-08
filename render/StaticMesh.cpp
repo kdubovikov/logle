@@ -64,6 +64,11 @@ void StaticMesh::prepareTexture(const std::string& imagePath) {
     texture.prepareTexture();
 }
 
+void StaticMesh::prepareDDSTextureCustom(const std::string& imagePath) {
+    texture.customLoadDDS(imagePath);
+}
+
+
 template <class T>
 GLuint StaticMesh::prepareBuffer(const std::vector<T>& bufferData) {
     GLuint bufferId;

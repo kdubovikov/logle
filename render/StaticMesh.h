@@ -42,6 +42,7 @@ public:
     StaticMesh(const std::string& modelPath, Shader& vertexShader, Shader& fragmentShader);
     void prepareShaders();
     void prepareTexture(const std::string &imagePath);
+    void prepareDDSTextureCustom(const std::string &imagePath);
     void prepareBuffers(const size_t vertexBufferSize, const std::vector<GLfloat>& vertexBufferData, const size_t uvBufferSize, const std::vector<GLfloat>& uvBufferData);
     void prepareBuffers(const std::vector<glm::vec3>& vertexBufferData, const std::vector<glm::vec2>& uvBufferData);
     void applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);

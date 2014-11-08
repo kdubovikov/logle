@@ -44,9 +44,9 @@ int main(void) {
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
     
-    StaticMesh cube("../models/cube.obj", vshader, fshader);
-    std::string texturePath("../textures/numbers.tga");
-    cube.prepareTexture(texturePath);
+    StaticMesh cube("../models/suzanne.obj", vshader, fshader);
+    std::string texturePath("../models/uvmap.DDS");
+    cube.prepareDDSTextureCustom(texturePath);
     
     Camera* camera = new Camera();
     glm::vec3 trVec(0, 0, 5);
