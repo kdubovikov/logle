@@ -17,29 +17,21 @@ void Scene::render() {
     double currentTime = glfwGetTime();
     double deltaTime = currentTime - lastTime;
     
-    inputManager->processInputs(deltaTime);
-    camera->applyTransformation();
+    inputManager.get()->processInputs(camera, deltaTime);
+    camera.get()->applyTransformation();
     
     for (StaticMesh& object : objects) {
-        object.applyTransformation(camera->getViewMatrix(), camera->getProjectionMatrix());
+        object.applyTransformation(camera.get()->getViewMatrix(), camera.get()->getProjectionMatrix());
         object.render();
     }
     
     lastTime = currentTime;
 }
 
-Camera* Scene::getCamera() {
-    return camera;
+void Scene::setCamera(std::unique_ptr<Camera>& camera) {
+    this->camera = std::move(camera);
 }
 
-void Scene::setCamera(Camera* camera) {
-    this->camera = camera;
-}
-
-InputManager* Scene::getInputManager() const {
-    return inputManager;
-}
-
-void Scene::setInputManager(InputManager* inputManager) {
-    this->inputManager = inputManager;
+void Scene::setInputManager(std::unique_ptr<InputManager>& inputManager) {
+    this->inputManager = std::move(inputManager);
 }

@@ -11,6 +11,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include <memory>
 #include "../render/Camera.h"
 
 class InputManager {
@@ -18,13 +19,10 @@ private:
     double mouseXPos;
     double mouseYPos;
     GLfloat mouseSpeed;
-    
-    // TODO: change to abstract class (MovableObject)
-    Camera* camera;
     GLFWwindow* window;
 
 public:
-    InputManager(Camera* camera, GLFWwindow* window);
-    void processInputs(double deltaTime);
+    InputManager(GLFWwindow* window);
+    void processInputs(std::unique_ptr<Camera>& camera, double deltaTime);
 };
 

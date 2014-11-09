@@ -48,10 +48,10 @@ int main(void) {
     std::string texturePath("../models/uvmap.DDS");
     cube.prepareDDSTextureCustom(texturePath);
     
-    Camera* camera = new Camera();
+    std::unique_ptr<Camera> camera(new Camera());
     glm::vec3 trVec(0, 0, 5);
-    camera->setCameraPosition(trVec);
-    InputManager* inputManager = new InputManager(camera, window);
+    camera.get()->setCameraPosition(trVec);
+    std::unique_ptr<InputManager> inputManager(new InputManager(window));
     
     Scene scene;
     scene.setCamera(camera);
