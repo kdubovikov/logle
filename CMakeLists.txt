@@ -17,17 +17,5 @@ add_subdirectory(render)
 add_subdirectory(input)
 include_directories(core shader render input ${GLFW_INCLUDE_DIRS})
 
-add_executable(triangle Triangle.cpp)
-target_link_libraries(triangle shader core render ${GLFW_STATIC_LIBRARIES})
-
-add_executable(colored_cube ColoredCube.cpp)
-target_link_libraries(colored_cube shader core render ${GLFW_STATIC_LIBRARIES})
-
-add_executable(textured_cube TexturedCube.cpp)
-target_link_libraries(textured_cube shader core render ${GLFW_STATIC_LIBRARIES} ${CMAKE_SOURCE_DIR}/lib/libsoil2.a)
-
-add_executable(input_test InputTest.cpp)
-target_link_libraries(input_test shader core render input ${GLFW_STATIC_LIBRARIES} ${CMAKE_SOURCE_DIR}/lib/libsoil2.a)
-
 add_executable(model_loader_test ModelLoading.cpp)
-target_link_libraries(model_loader_test shader core render input ${GLFW_STATIC_LIBRARIES} ${CMAKE_SOURCE_DIR}/lib/libsoil2.a)
+target_link_libraries(model_loader_test core shader render input ${GLFW_STATIC_LIBRARIES} ${CMAKE_SOURCE_DIR}/lib/libsoil2.a)

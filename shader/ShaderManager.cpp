@@ -4,6 +4,22 @@ void ShaderManager::add(Shader& shader) {
     shaders.push_back(shader);
 }
 
+void ShaderManager::addUniform(const std::string& uniformName, const glm::mat4& matrix) {
+    uniformManager.get()->addMatrix4(uniformName, matrix);
+}
+
+void ShaderManager::addUniform(const std::string& uniformName, const glm::vec3& vector) {
+    uniformManager.get()->addVector3(uniformName, vector);    
+}
+
+void ShaderManager::addUniform(const std::string& uniformName, GLint textureNumber) {
+    uniformManager.get()->addSampler(uniformName, textureNumber);
+}
+
+GLuint ShaderManager::getUniformId(const std::string& uniformName) {
+    return uniformManager.get()->getUniformId(uniformName);
+}
+
 CompilationResult ShaderManager::compileShaders() {
     for (Shader& shader : shaders) {
         CompilationResult result = shader.compile();
@@ -15,7 +31,7 @@ CompilationResult ShaderManager::compileShaders() {
     return CompilationResult{CompilationResult::OK};
 }
 
-void ShaderManager::link() {
+CompilationResult ShaderManager::link() {
     shaderProgramId = glCreateProgram();
 
     for (Shader& shader : shaders) {
@@ -23,9 +39,17 @@ void ShaderManager::link() {
     }
 
     glLinkProgram(shaderProgramId);
+    
+    CompilationResult result = checkLinkResults();
+    if (result.status == CompilationResult::OK) {
+        UniformManager* manager = new UniformManager(shaderProgramId);
+        uniformManager = std::unique_ptr<UniformManager>(manager);
+    }
+    
+    return result;
 }
 
-CompilationResult ShaderManager::checkResults() {
+CompilationResult ShaderManager::checkLinkResults() {
     GLint result = GL_FALSE;
     glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &result);
 
