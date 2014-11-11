@@ -1,7 +1,7 @@
 #define GL_GLEXT_PROTOTYPES
 #define GLM_FORCE_RADIANS
 
-#include <GLFW/glfw3.h>
+#include "glfw/glfw3.h"
 
 #include "Shader.h"
 #include "StaticMesh.h"
