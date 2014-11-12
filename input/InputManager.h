@@ -8,11 +8,11 @@
 
 #define GL_GLEXT_PROTOTYPES
 #define GLM_FORCE_RADIANS 
-#include "glfw/glfw3.h"
-#include "glm/glm.hpp""
+#include  <glfw/glfw3.h>
+#include "glm/glm.hpp"
 #include "glm/gtx/string_cast.hpp"
 #include <memory>
-#include "../render/Camera.h"
+#include <render/Camera.h>
 
 class InputManager {
 private:

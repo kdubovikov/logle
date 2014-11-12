@@ -9,7 +9,7 @@
 
 #define GL_GLEXT_PROTOTYPES
 #include "glfw/glfw3.h
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 #include "Texture.h"
 #include "CompilationResult.h"
