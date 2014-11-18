@@ -1,7 +1,7 @@
 #define GL_GLEXT_PROTOTYPES
 #define GLM_FORCE_RADIANS
 
-#include <GLFW/glfw3.h>
+#include "glfw/glfw3.h"
 
 #include "Shader.h"
 #include "StaticMesh.h"
@@ -39,13 +39,13 @@ int main(void) {
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    std::string vshaderFile("../shaders/textured/textured.vert");
-    std::string fshaderFile("../shaders/textured/textured.frag");
+    std::string vshaderFile("./rsc/shaders/textured/textured.vert");
+    std::string fshaderFile("./rsc/shaders/textured/textured.frag");
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
     
-    StaticMesh cube("../models/suzanne.obj", vshader, fshader);
-    std::string texturePath("../models/uvmap.DDS");
+    StaticMesh cube("./rsc/models/suzanne.obj", vshader, fshader);
+    std::string texturePath("./rsc/models/uvmap.DDS");
     cube.prepareDDSTextureCustom(texturePath);
     
     std::unique_ptr<Camera> camera(new Camera());
