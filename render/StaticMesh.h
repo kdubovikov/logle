@@ -32,6 +32,7 @@ private:
     
     size_t vertexBufferSize;
     GLuint vertexBufferId;
+    GLuint vertexArrayId;
     GLuint uvBufferId;
     GLuint normalBufferId;
 

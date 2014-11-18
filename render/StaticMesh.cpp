@@ -8,6 +8,8 @@ const std::string StaticMesh::SAMPLER_UNIFORM_NAME = "textureSampler";
 StaticMesh::StaticMesh(Shader& vertexShader, Shader& fragmentShader) :
 shaderManager(),
 modelMatrix(glm::mat4(1.0f)) {
+    glGenVertexArrays(1, &vertexArrayId);
+    glBindVertexArray(vertexArrayId);
     shaderManager.add(vertexShader);
     shaderManager.add(fragmentShader);
 }
@@ -120,4 +122,5 @@ StaticMesh::~StaticMesh() {
     glDeleteBuffers(1, &vertexBufferId);
     glDeleteBuffers(1, &uvBufferId);
     glDeleteBuffers(1, &normalBufferId);
+    glDeleteVertexArrays(1, &vertexArrayId);
 }

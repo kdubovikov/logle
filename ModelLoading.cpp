@@ -35,10 +35,6 @@ int main(void) {
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
     
-    GLuint VertexArrayID;
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
-
     std::string vshaderFile("./rsc/shaders/textured/textured.vert");
     std::string fshaderFile("./rsc/shaders/textured/textured.frag");
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
@@ -70,8 +66,6 @@ int main(void) {
         glfwPollEvents();
     }
     
-    glDeleteVertexArrays(1, &VertexArrayID);
-
     glfwTerminate();
     return 0;
 }
