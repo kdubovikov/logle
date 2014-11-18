@@ -22,6 +22,7 @@ void Scene::render() {
     
     for (StaticMesh& object : objects) {
         object.applyTransformation(camera.get()->getViewMatrix(), camera.get()->getProjectionMatrix());
+        object.prepareLightSource(light);
         object.render();
     }
     
@@ -35,3 +36,8 @@ void Scene::setCamera(std::unique_ptr<Camera>& camera) {
 void Scene::setInputManager(std::unique_ptr<InputManager>& inputManager) {
     this->inputManager = std::move(inputManager);
 }
+
+void Scene::setLightSource(std::unique_ptr<LightSource>& light) {
+    this->light = std::move(light);
+}
+

@@ -74,7 +74,12 @@ GLuint StaticMesh::prepareBuffer(const std::vector<T>& bufferData) {
 void StaticMesh::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
     glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
     shaderManager.addUniform(MVP_UNIFORM_NAME, mvp);
+    shaderManager.addUniform(VIEW_UNIFORM_NAME, viewMatrix);
+    shaderManager.addUniform(MODEL_UNIFORM_NAME, modelMatrix);
     
+    GLuint LightID = glGetUniformLocation(shaderManager.getShaderProgramId(), "LightPosition_worldspace");
+    glm::vec3 lightPos = glm::vec3(4,4,4);
+    glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 }
 
 void StaticMesh::render() {
@@ -109,6 +114,13 @@ void StaticMesh::render() {
         glDisableVertexAttribArray(2);
     }
 }
+
+void StaticMesh::prepareLightSource(std::unique_ptr<LightSource>& light) {
+    shaderManager.addUniform(light.get()->LIGHT_COLOR_UNIFORM_NAME, light.get()->getColor());
+    shaderManager.addUniform(light.get()->LIGHT_POSITION_UNIFORM_NAME, light.get()->getPosition());
+    shaderManager.addUniform(light.get()->LIGHT_POWER_UNIFORM_NAME, light.get()->getPower());
+}
+
 
 ShaderManager& StaticMesh::getShaderManager() {
     return shaderManager;

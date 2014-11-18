@@ -16,6 +16,10 @@ void ShaderManager::addUniform(const std::string& uniformName, GLint textureNumb
     uniformManager.get()->addSampler(uniformName, textureNumber);
 }
 
+void ShaderManager::addUniform(const std::string& uniformName, GLfloat number) {
+    uniformManager.get()->addFloat(uniformName, number);
+}
+
 GLuint ShaderManager::getUniformId(const std::string& uniformName) {
     return uniformManager.get()->getUniformId(uniformName);
 }

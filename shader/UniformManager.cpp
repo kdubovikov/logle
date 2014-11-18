@@ -28,6 +28,10 @@ void UniformManager::addSampler(const std::string& uniformName, GLint number) {
     glUniform1i(uniformId, number);
 }
 
+void UniformManager::addFloat(const std::string& uniformName, GLfloat number) {
+    GLuint uniformId = createUniform(uniformName);
+    glUniform1f(uniformId, number);
+}
 
 GLuint UniformManager::createUniform(const std::string& uniformName) {
     GLuint uniformId = glGetUniformLocation(shaderProgramId, uniformName.c_str());

@@ -15,6 +15,8 @@
 #include "CompilationResult.h"
 #include "ShaderManager.h"
 #include "MeshLoader.h"
+#include "LightSource.h"
+#include "LightSource.h"
 
 class StaticMesh {
 private:
@@ -49,6 +51,7 @@ public:
     void prepareBuffers(const std::vector<glm::vec3>& vertexBufferData, const std::vector<glm::vec2>& uvBufferData, const std::vector<glm::vec3>& normalBufferData);
     void applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
     void render();
+    void prepareLightSource(std::unique_ptr<LightSource>& light);
     ShaderManager& getShaderManager();
     glm::mat4& getModelMatrix();
     ~StaticMesh();

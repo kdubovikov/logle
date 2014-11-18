@@ -18,6 +18,7 @@ public:
     void addUniform(const std::string& uniformName, const glm::mat4& matrix);
     void addUniform(const std::string& uniformName, const glm::vec3& vector);
     void addUniform(const std::string& uniformName, GLint textureNumber);
+    void addUniform(const std::string& uniformName, GLfloat number);
     GLuint getUniformId(const std::string& uniformName);
     void add(Shader& shader);
     CompilationResult compileShaders();

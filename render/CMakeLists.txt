@@ -9,6 +9,6 @@ elseif(WINDOWS)
 endif()
 
 include_directories(../ ../core ../shader ../input)
-add_library(render STATIC Scene.cpp Camera.cpp StaticMesh.cpp Texture.cpp MeshLoader.cpp)
+add_library(render STATIC Scene.cpp Camera.cpp StaticMesh.cpp Texture.cpp MeshLoader.cpp LightSource.cpp)
 
 target_link_libraries(render shader input  ${RENDER_DEPS})

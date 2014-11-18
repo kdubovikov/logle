@@ -35,14 +35,22 @@ int main(void) {
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
     
-    std::string vshaderFile("./rsc/shaders/textured/textured.vert");
-    std::string fshaderFile("./rsc/shaders/textured/textured.frag");
+    std::string vshaderFile("../shaders/simple_shading/shading.vert");
+    std::string fshaderFile("../shaders/simple_shading/shading.frag");
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
     
     StaticMesh cube("./rsc/models/suzanne.obj", vshader, fshader);
     std::string texturePath("./rsc/models/uvmap.DDS");
     cube.prepareDDSTextureCustom(texturePath);
+    
+    std::unique_ptr<LightSource> light(new LightSource());
+    glm::vec3 color(1.0f, 1.0f, 1.0f);
+    glm::vec3 position(4.0f, 4.0f, 4.0f);
+    GLfloat power = 50.0f;
+    light.get()->setColor(color);
+    light.get()->setPosition(position);
+    light.get()->setPower(power);
     
     std::unique_ptr<Camera> camera(new Camera());
     glm::vec3 trVec(0, 0, 5);
@@ -52,6 +60,7 @@ int main(void) {
     Scene scene;
     scene.setCamera(camera);
     scene.setInputManager(inputManager);
+    scene.setLightSource(light);
     scene.addObject(cube);
 
     /* Loop until the user closes the window */

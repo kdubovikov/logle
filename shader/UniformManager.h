@@ -24,5 +24,6 @@ public:
     GLuint getUniformId(const std::string& uniformName);
     void addMatrix4(const std::string& uniformName, const glm::mat4& matrix);
     void addVector3(const std::string& uniformName, const glm::vec3& vector);
+    void addFloat(const std::string& uniformName, GLfloat number);
     void addSampler(const std::string& uniformName, GLint number);
 };
