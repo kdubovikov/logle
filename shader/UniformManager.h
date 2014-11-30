@@ -11,13 +11,12 @@
 #include <glfw/glfw3.h>
 #include <glm/glm.hpp>
 
-#include <unordered_map>
+#include "core/ResourceManager.h"
 
 class UniformManager {
 private:
     GLuint shaderProgramId;
-    std::unordered_map<std::string, GLuint> uniformIdMap;
-    
+    ResourceManager<GLuint> uniformResourceManager;
     GLuint createUniform(const std::string& uniformName);
 public:
     UniformManager(const GLuint shaderProgramId);

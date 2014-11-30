@@ -8,6 +8,7 @@
 #include "camera/Camera.h"
 #include "Scene.h"
 #include "InputManager.h"
+#include "BufferManager.h"
 
 int main(void) {
     printf("Hi!\n");
@@ -43,7 +44,10 @@ int main(void) {
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
     
-    StaticMesh cube("./rsc/models/suzanne.obj", vshader, fshader);
+    BufferManager bufferManager;
+    
+    std::string modelPath = "./rsc/models/suzanne.obj";
+    StaticMesh cube(modelPath, vshader, fshader, bufferManager);
     std::string texturePath("./rsc/models/uvmap.DDS");
     cube.prepareDDSTextureCustom(texturePath);
     

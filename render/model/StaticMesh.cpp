@@ -4,22 +4,31 @@ const std::string StaticMesh::MVP_UNIFORM_NAME = "MVP";
 const std::string StaticMesh::VIEW_UNIFORM_NAME = "V";
 const std::string StaticMesh::MODEL_UNIFORM_NAME = "M";
 const std::string StaticMesh::SAMPLER_UNIFORM_NAME = "textureSampler";
+const std::string StaticMesh::VERTEX_BUFFER_NAME = "vertexBuffer";
+const std::string StaticMesh::UV_BUFFER_NAME = "uvBuffer";
+const std::string StaticMesh::NORMAL_BUFFER_NAME = "normalBuffer";
 
-StaticMesh::StaticMesh(Shader& vertexShader, Shader& fragmentShader) :
+StaticMesh::StaticMesh(Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager) :
 shaderManager(),
-modelMatrix(glm::mat4(1.0f)) {
+modelMatrix(glm::mat4(1.0f)),
+bufferManager(bufferManager) {
     glGenVertexArrays(1, &vertexArrayId);
     glBindVertexArray(vertexArrayId);
     shaderManager.add(vertexShader);
     shaderManager.add(fragmentShader);
 }
 
-StaticMesh::StaticMesh(const std::string& modelPath, Shader& vertexShader, Shader& fragmentShader) {
+StaticMesh::StaticMesh(const std::string& modelPath, Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager) : 
+bufferManager(bufferManager) {
     MeshLoader::load(modelPath, verticies, uvs, normals);
     shaderManager.add(vertexShader);
     shaderManager.add(fragmentShader);
     prepareShaders();
-    prepareBuffers(verticies, uvs, normals);
+    
+    vertexBufferSize = verticies.size() * 3;
+    bufferManager.addBuffer(VERTEX_BUFFER_NAME, verticies);
+    bufferManager.addBuffer(UV_BUFFER_NAME, uvs);
+    bufferManager.addBuffer(NORMAL_BUFFER_NAME, normals);
 }
 
 
@@ -41,15 +50,6 @@ void StaticMesh::prepareShaders() {
     }    
 }
 
-void StaticMesh::prepareBuffers(const std::vector<glm::vec3>& vertexBufferData, const std::vector<glm::vec2>& uvBufferData, const std::vector<glm::vec3>& normalBufferData) {
-    vertexBufferSize = vertexBufferData.size() * 3;
-
-    vertexBufferId = prepareBuffer(vertexBufferData);
-    uvBufferId = prepareBuffer(uvBufferData);
-    normalBufferId = prepareBuffer(normalBufferData);
-}
-
-
 void StaticMesh::prepareTexture(const std::string& imagePath) {
     texture.load(imagePath);
     texture.prepareTexture();
@@ -58,17 +58,6 @@ void StaticMesh::prepareTexture(const std::string& imagePath) {
 
 void StaticMesh::prepareDDSTextureCustom(const std::string& imagePath) {
     texture.customLoadDDS(imagePath);
-}
-
-
-template <class T>
-GLuint StaticMesh::prepareBuffer(const std::vector<T>& bufferData) {
-    GLuint bufferId;
-    glGenBuffers(1, &bufferId);
-    glBindBuffer(GL_ARRAY_BUFFER, bufferId);
-    glBufferData(GL_ARRAY_BUFFER, bufferData.size() * sizeof(T), &bufferData[0], GL_STATIC_DRAW);
-    
-    return bufferId;
 }
 
 void StaticMesh::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
@@ -90,29 +79,22 @@ void StaticMesh::render() {
     glUniform1i(shaderManager.getUniformId(SAMPLER_UNIFORM_NAME), 0);
     
     glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferManager.getBufferId(VERTEX_BUFFER_NAME));
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 
     glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, uvBufferId);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferManager.getBufferId(UV_BUFFER_NAME));
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*) 0);
     
-    // Simple back compability check
-    if (normalBufferId != 0) {
-        glEnableVertexAttribArray(2);
-        glBindBuffer(GL_ARRAY_BUFFER, normalBufferId);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-    }
-    
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferManager.getBufferId(NORMAL_BUFFER_NAME));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+        
     glDrawArrays(GL_TRIANGLES, 0, vertexBufferSize / 3);
     
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
-    
-    // Simple back compability check
-    if (normalBufferId != 0) {
-        glDisableVertexAttribArray(2);
-    }
+    glDisableVertexAttribArray(2);
 }
 
 void StaticMesh::prepareLightSource(std::unique_ptr<LightSource>& light) {
@@ -120,7 +102,6 @@ void StaticMesh::prepareLightSource(std::unique_ptr<LightSource>& light) {
     shaderManager.addUniform(light.get()->LIGHT_POSITION_UNIFORM_NAME, light.get()->getPosition());
     shaderManager.addUniform(light.get()->LIGHT_POWER_UNIFORM_NAME, light.get()->getPower());
 }
-
 
 ShaderManager& StaticMesh::getShaderManager() {
     return shaderManager;
@@ -131,8 +112,5 @@ glm::mat4& StaticMesh::getModelMatrix() {
 }
 
 StaticMesh::~StaticMesh() {
-    glDeleteBuffers(1, &vertexBufferId);
-    glDeleteBuffers(1, &uvBufferId);
-    glDeleteBuffers(1, &normalBufferId);
     glDeleteVertexArrays(1, &vertexArrayId);
 }
