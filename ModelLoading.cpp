@@ -4,8 +4,8 @@
 #include "glfw/glfw3.h"
 
 #include "Shader.h"
-#include "StaticMesh.h"
-#include "Camera.h"
+#include "model/StaticMesh.h"
+#include "camera/Camera.h"
 #include "Scene.h"
 #include "InputManager.h"
 
@@ -34,6 +34,9 @@ int main(void) {
     glEnable(GL_CULL_FACE);
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
+    
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     std::string vshaderFile("../shaders/simple_shading/shading.vert");
     std::string fshaderFile("../shaders/simple_shading/shading.frag");

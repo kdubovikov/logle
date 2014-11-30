@@ -12,7 +12,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtx/string_cast.hpp"
 #include <memory>
-#include <render/Camera.h>
+#include <render/camera/Camera.h>
 
 class InputManager {
 private:

@@ -15,8 +15,7 @@
 #include "CompilationResult.h"
 #include "ShaderManager.h"
 #include "MeshLoader.h"
-#include "LightSource.h"
-#include "LightSource.h"
+#include "lighting/LightSource.h"
 
 class StaticMesh {
 private:

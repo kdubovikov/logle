@@ -6,10 +6,10 @@
  */
 
 #pragma once
-#include "StaticMesh.h"
-#include "Camera.h"
+#include "model/StaticMesh.h"
+#include "camera/Camera.h"
 #include "InputManager.h"
-#include "LightSource.h"
+#include "lighting/LightSource.h"
 #include <vector>
 #include <functional>
 
