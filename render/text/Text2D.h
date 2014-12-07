@@ -10,26 +10,19 @@
 #include "glm/glm.hpp"
 
 #include "Texture.h"
-#include "shader/ShaderManager.h"
-#include "shader/Shader.h"
-#include "BufferManager.h"
+#include "geometry/Geometry.h"
 
-class Text2D {
+class Text2D : public Geometry {
 private:
     Texture fontTexture;
     size_t symbolSize;
     
-    std::vector<glm::vec2> vertexList;
-    std::vector<glm::vec2> uvList;
-    
-    ShaderManager shaderManager;
-    BufferManager bufferManager;
-    
-    static const std::string VERTEX_BUFFER_NAME;
-    static const std::string UV_BUFFER_NAME;
     static const std::string SAMPLER_UNIFORM_NAME;
+
+    virtual void preRender();
+    virtual void postRender();
+    virtual void applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
 public:
-    void prepareFont(const std::string& fontTexturePath, Shader& vertexShader, Shader& fragmentShader, size_t symbolSize);
+    Text2D(const std::string& fontTexturePath, size_t symbolSize, Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager);
     void print(const std::string& text, GLuint x, GLuint y);
-    void render();
 };

@@ -19,7 +19,6 @@ void StaticMesh::prepareDDSTextureCustom(const std::string& imagePath) {
 }
 
 void StaticMesh::prepareBuffers() {
-    vertexBufferSize = verticies.size() * 3;
     bufferManager.addBuffer(VERTEX_BUFFER_NAME, verticies);
     bufferManager.addBuffer(UV_BUFFER_NAME, uvs);
     bufferManager.addBuffer(NORMAL_BUFFER_NAME, normals);
@@ -44,6 +43,7 @@ void StaticMesh::preRender() {
 }
 
 void StaticMesh::postRender() {
+    Geometry::postRender();
     glDisableVertexAttribArray(2);
 }
 

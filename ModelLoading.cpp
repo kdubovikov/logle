@@ -37,8 +37,8 @@ int main(void) {
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
     
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     std::string vshaderFile("../shaders/simple_shading/shading.vert");
     std::string fshaderFile("../shaders/simple_shading/shading.frag");
@@ -49,12 +49,10 @@ int main(void) {
     BufferManager bufferManager2;
     
     std::string modelPath = "./rsc/models/suzanne.obj";
-    StaticMesh cube(modelPath, vshader, fshader, bufferManager);
-    StaticMesh suzanne(modelPath, vshader, fshader, bufferManager2);
+    StaticMesh suzanne(modelPath, vshader, fshader, bufferManager);
     
     std::string texturePath("./rsc/models/uvmap.DDS");
-    cube.prepareDDSTextureCustom(texturePath);
-    suzanne.prepareDDSTextureCustom(texturePath);
+    suzanne.prepareTexture(texturePath);
     
     std::unique_ptr<LightSource> light(new LightSource());
     glm::vec3 color(1.0f, 1.0f, 1.0f);
@@ -77,17 +75,18 @@ int main(void) {
     
     Text2D text(fontTexturePath, 60, fontVertexShader, fontFragmentShader, bufferManager2);
     
-    std::string textToPrint("hahaha");
+    std::string textToPrint("test text");
     text.print(textToPrint, 10, 100);
     
     Scene scene;
     scene.setCamera(camera);
     scene.setInputManager(inputManager);
     scene.setLightSource(light);
-    scene.addObject(cube);
-    suzanne.translate(glm::vec3(-3.0f, 0.0f, 0.0f));
+    
+    suzanne.translate(glm::vec3(0.0f, 3.0f, 0.0f));
     scene.addObject(suzanne);
-
+    scene.addObject(text);
+    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

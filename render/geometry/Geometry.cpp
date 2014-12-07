@@ -15,6 +15,9 @@ const std::string Geometry::UV_BUFFER_NAME = "uvBuffer";
 
 Geometry::Geometry(Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager) :
 bufferManager(bufferManager) {
+    static int objectId = 0;
+    this->objectId = objectId++;
+    printf("New object id - %d\n", this->objectId);
     glGenVertexArrays(1, &vertexArrayId);
     glBindVertexArray(vertexArrayId);
     
@@ -56,7 +59,6 @@ void Geometry::translate(glm::vec3 to) {
 
 
 void Geometry::prepareBuffers() {
-    vertexBufferSize = verticies.size() * 3;
     bufferManager.addBuffer(VERTEX_BUFFER_NAME, verticies);
     bufferManager.addBuffer(UV_BUFFER_NAME, uvs);
 }
@@ -78,7 +80,7 @@ void Geometry::preRender() {
 void Geometry::render() {
     glBindVertexArray(vertexArrayId);
     preRender();
-    glDrawArrays(GL_TRIANGLES, 0, vertexBufferSize / 3);
+    glDrawArrays(GL_TRIANGLES, 0, verticies.size());
     postRender();
 }
 

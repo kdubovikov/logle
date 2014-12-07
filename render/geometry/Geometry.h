@@ -34,8 +34,8 @@ protected:
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> uvs;
     
-    size_t vertexBufferSize;
     GLuint vertexArrayId;
+    int objectId;
 
     glm::mat4 modelMatrix;
     
