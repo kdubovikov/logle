@@ -9,7 +9,7 @@ elseif(WINDOWS)
 endif()
 
 file(GLOB RENDER_SOURCES *.cpp */*.cpp)
-include_directories(. camera lighting model text ../)
+include_directories(. camera lighting model text geometry ../)
 add_library(render STATIC ${RENDER_SOURCES})
 
 target_link_libraries(render shader input ${RENDER_DEPS})

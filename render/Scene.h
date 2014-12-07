@@ -6,7 +6,7 @@
  */
 
 #pragma once
-#include "model/StaticMesh.h"
+#include "geometry/Geometry.h"
 #include "camera/Camera.h"
 #include "input/InputManager.h"
 #include "lighting/LightSource.h"
@@ -18,9 +18,9 @@ private:
     std::unique_ptr<Camera> camera;
     std::unique_ptr<InputManager> inputManager;
     std::unique_ptr<LightSource> light;
-    std::vector<std::reference_wrapper<StaticMesh>> objects;
+    std::vector<std::reference_wrapper<Geometry>> objects;
 public:
-    void addObject(StaticMesh& object);
+    void addObject(Geometry& object);
     void render();
     void setCamera(std::unique_ptr<Camera>& camera);
     void setInputManager(std::unique_ptr<InputManager>& inputManager);

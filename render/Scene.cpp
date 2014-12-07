@@ -6,8 +6,9 @@
  */
 
 #include "Scene.h"
+#include "StaticMesh.h"
 
-void Scene::addObject(StaticMesh& object) {
+void Scene::addObject(Geometry& object) {
     objects.push_back(object);
 }
 
@@ -20,9 +21,14 @@ void Scene::render() {
     inputManager.get()->processInputs(camera, deltaTime);
     camera.get()->applyTransformation();
     
-    for (StaticMesh& object : objects) {
+    for (Geometry& object : objects) {
         object.applyTransformation(camera.get()->getViewMatrix(), camera.get()->getProjectionMatrix());
-        object.prepareLightSource(light);
+        
+        StaticMesh* staticMesh = dynamic_cast<StaticMesh*>(&object);
+        if (staticMesh != NULL) {
+            staticMesh->prepareLightSource(light);
+        }
+        
         object.render();
     }
     

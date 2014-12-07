@@ -6,8 +6,9 @@
  */
 
 #pragma once
-#include "StaticMesh.h"
 #include "glm/glm.hpp"
+#include <string>
+#include <vector>
 #include <string.h>
 
 class MeshLoader {
