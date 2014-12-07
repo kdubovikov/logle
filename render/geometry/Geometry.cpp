@@ -12,23 +12,17 @@ const std::string Geometry::VIEW_UNIFORM_NAME = "V";
 const std::string Geometry::MODEL_UNIFORM_NAME = "M";
 const std::string Geometry::VERTEX_BUFFER_NAME = "vertexBuffer";
 const std::string Geometry::UV_BUFFER_NAME = "uvBuffer";
-const std::string Geometry::NORMAL_BUFFER_NAME = "normalBuffer";
 
-Geometry::Geometry(const std::string& modelPath, Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager) :
+Geometry::Geometry(Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager) :
 bufferManager(bufferManager) {
     glGenVertexArrays(1, &vertexArrayId);
     glBindVertexArray(vertexArrayId);
     
-    MeshLoader::load(modelPath, verticies, uvs, normals);
     shaderManager.add(vertexShader);
     shaderManager.add(fragmentShader);
     prepareShaders();
-    
-    vertexBufferSize = verticies.size() * 3;
-    bufferManager.addBuffer(VERTEX_BUFFER_NAME, verticies);
-    bufferManager.addBuffer(UV_BUFFER_NAME, uvs);
-    bufferManager.addBuffer(NORMAL_BUFFER_NAME, normals);
 }
+
 
 void Geometry::prepareShaders() {
     // TODO: add some kind of AbstractResult class and return status
@@ -48,15 +42,28 @@ void Geometry::prepareShaders() {
     }
 }
 
-
 void Geometry::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
+    glBindVertexArray(vertexArrayId);
     glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
     shaderManager.addUniform(MVP_UNIFORM_NAME, mvp);
     shaderManager.addUniform(VIEW_UNIFORM_NAME, viewMatrix);
     shaderManager.addUniform(MODEL_UNIFORM_NAME, modelMatrix);
 }
 
+void Geometry::translate(glm::vec3 to) {
+    modelMatrix = glm::translate(modelMatrix, to);
+}
+
+
+void Geometry::prepareBuffers() {
+    vertexBufferSize = verticies.size() * 3;
+    bufferManager.addBuffer(VERTEX_BUFFER_NAME, verticies);
+    bufferManager.addBuffer(UV_BUFFER_NAME, uvs);
+}
+
 void Geometry::preRender() {
+    prepareBuffers();
+    
     glUseProgram(shaderManager.getShaderProgramId());
    
     glEnableVertexAttribArray(0);
@@ -66,13 +73,10 @@ void Geometry::preRender() {
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, bufferManager.getBufferId(UV_BUFFER_NAME));
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-
-    glEnableVertexAttribArray(2);
-    glBindBuffer(GL_ARRAY_BUFFER, bufferManager.getBufferId(NORMAL_BUFFER_NAME));
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 }
 
-void Geometry::render() {    
+void Geometry::render() {
+    glBindVertexArray(vertexArrayId);
     preRender();
     glDrawArrays(GL_TRIANGLES, 0, vertexBufferSize / 3);
     postRender();
@@ -81,7 +85,6 @@ void Geometry::render() {
 void Geometry::postRender() {
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
 }
 
 glm::mat4& Geometry::getModelMatrix() {

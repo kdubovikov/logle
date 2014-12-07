@@ -46,11 +46,15 @@ int main(void) {
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
     
     BufferManager bufferManager;
+    BufferManager bufferManager2;
     
     std::string modelPath = "./rsc/models/suzanne.obj";
     StaticMesh cube(modelPath, vshader, fshader, bufferManager);
+    StaticMesh suzanne(modelPath, vshader, fshader, bufferManager2);
+    
     std::string texturePath("./rsc/models/uvmap.DDS");
     cube.prepareDDSTextureCustom(texturePath);
+    suzanne.prepareDDSTextureCustom(texturePath);
     
     std::unique_ptr<LightSource> light(new LightSource());
     glm::vec3 color(1.0f, 1.0f, 1.0f);
@@ -67,19 +71,22 @@ int main(void) {
     
     std::string fontVertexShaderPath("../shaders/font/font.vshader");
     std::string fontFragmentShaderPath("../shaders/font/font.fshader");
+    std::string fontTexturePath("../textures/Holstein.DDS");
     Shader fontVertexShader(fontVertexShaderPath, GL_VERTEX_SHADER);
     Shader fontFragmentShader(fontFragmentShaderPath, GL_FRAGMENT_SHADER);
-    Text2D text;
-    text.prepareFont("../textures/Holstein.DDS", fontVertexShader, fontFragmentShader, 60);
+    
+    Text2D text(fontTexturePath, 60, fontVertexShader, fontFragmentShader, bufferManager2);
     
     std::string textToPrint("hahaha");
-    text.print(textToPrint, 10, 10);
+    text.print(textToPrint, 10, 100);
     
     Scene scene;
     scene.setCamera(camera);
     scene.setInputManager(inputManager);
     scene.setLightSource(light);
     scene.addObject(cube);
+    suzanne.translate(glm::vec3(-3.0f, 0.0f, 0.0f));
+    scene.addObject(suzanne);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
