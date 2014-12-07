@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "model/StaticMesh.h"
 #include "camera/Camera.h"
+#include "text/Text2D.h"
 #include "Scene.h"
 #include "InputManager.h"
 #include "BufferManager.h"
@@ -64,6 +65,16 @@ int main(void) {
     camera.get()->setCameraPosition(trVec);
     std::unique_ptr<InputManager> inputManager(new InputManager(window));
     
+    std::string fontVertexShaderPath("../shaders/font/font.vshader");
+    std::string fontFragmentShaderPath("../shaders/font/font.fshader");
+    Shader fontVertexShader(fontVertexShaderPath, GL_VERTEX_SHADER);
+    Shader fontFragmentShader(fontFragmentShaderPath, GL_FRAGMENT_SHADER);
+    Text2D text;
+    text.prepareFont("../textures/Holstein.DDS", fontVertexShader, fontFragmentShader, 60);
+    
+    std::string textToPrint("hahaha");
+    text.print(textToPrint, 10, 10);
+    
     Scene scene;
     scene.setCamera(camera);
     scene.setInputManager(inputManager);
@@ -75,6 +86,7 @@ int main(void) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         scene.render();
+        text.render();
 
         glfwSwapBuffers(window);
 
