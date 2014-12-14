@@ -50,6 +50,7 @@ public:
     virtual void render();
     ShaderManager& getShaderManager();
     glm::mat4& getModelMatrix();
+    int getObjectId();
     ~Geometry();
 };
 

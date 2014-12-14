@@ -14,7 +14,7 @@ Geometry(vertexShader, fragmentShader, bufferManager) {
     this->symbolSize = symbolSize;
     fontTexture.load(fontTexturePath);
     fontTexture.prepareTexture();
-    shaderManager.addUniform(SAMPLER_UNIFORM_NAME, 1);
+    shaderManager.addUniform(SAMPLER_UNIFORM_NAME, 0);
 }
 
 void Text2D::print(const std::string& text, GLuint x, GLuint y) {
@@ -53,6 +53,8 @@ void Text2D::print(const std::string& text, GLuint x, GLuint y) {
         uvs.push_back(uvUpRight);
         uvs.push_back(uvDownLeft);
     }
+    
+    Geometry::prepareBuffers();
 }
 
 void Text2D::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
@@ -60,12 +62,13 @@ void Text2D::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& p
 
 
 void Text2D::preRender() {
-    Geometry::preRender();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, fontTexture.getTextureId());
     shaderManager.addUniform(SAMPLER_UNIFORM_NAME, 0);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    Geometry::preRender();
 }
 
 void Text2D::postRender() {

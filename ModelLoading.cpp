@@ -46,13 +46,15 @@ int main(void) {
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
     
     BufferManager bufferManager;
-    BufferManager bufferManager2;
     
     std::string modelPath = "./rsc/models/suzanne.obj";
     StaticMesh suzanne(modelPath, vshader, fshader, bufferManager);
     
     std::string texturePath("./rsc/models/uvmap.DDS");
     suzanne.prepareTexture(texturePath);
+    
+    StaticMesh suzanne2(modelPath, vshader, fshader, bufferManager);
+    suzanne2.prepareTexture(texturePath);
     
     std::unique_ptr<LightSource> light(new LightSource());
     glm::vec3 color(1.0f, 1.0f, 1.0f);
@@ -73,7 +75,7 @@ int main(void) {
     Shader fontVertexShader(fontVertexShaderPath, GL_VERTEX_SHADER);
     Shader fontFragmentShader(fontFragmentShaderPath, GL_FRAGMENT_SHADER);
     
-    Text2D text(fontTexturePath, 60, fontVertexShader, fontFragmentShader, bufferManager2);
+    Text2D text(fontTexturePath, 60, fontVertexShader, fontFragmentShader, bufferManager);
     
     std::string textToPrint("test text");
     text.print(textToPrint, 10, 100);
@@ -84,8 +86,10 @@ int main(void) {
     scene.setLightSource(light);
     
     suzanne.translate(glm::vec3(0.0f, 3.0f, 0.0f));
-    scene.addObject(suzanne);
     scene.addObject(text);
+    scene.addObject(suzanne);
+    scene.addObject(suzanne2);
+    
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {

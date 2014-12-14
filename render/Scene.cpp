@@ -7,6 +7,7 @@
 
 #include "Scene.h"
 #include "StaticMesh.h"
+#include "Text2D.h"
 
 void Scene::addObject(Geometry& object) {
     objects.push_back(object);

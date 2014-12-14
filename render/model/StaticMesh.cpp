@@ -19,8 +19,9 @@ void StaticMesh::prepareDDSTextureCustom(const std::string& imagePath) {
 }
 
 void StaticMesh::prepareBuffers() {
-    bufferManager.addBuffer(VERTEX_BUFFER_NAME, verticies);
-    bufferManager.addBuffer(UV_BUFFER_NAME, uvs);
+    Geometry::prepareBuffers();
+    //bufferManager.addBuffer(VERTEX_BUFFER_NAME, verticies);
+    //bufferManager.addBuffer(UV_BUFFER_NAME, uvs);
     bufferManager.addBuffer(NORMAL_BUFFER_NAME, normals);
 }
 
