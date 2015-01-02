@@ -86,10 +86,10 @@ int main(void) {
     scene.setLightSource(light);
     
     suzanne.translate(glm::vec3(0.0f, 3.0f, 0.0f));
-    scene.addObject(text);
     scene.addObject(suzanne);
     scene.addObject(suzanne2);
-    
+    scene.addObject(text);
+
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
