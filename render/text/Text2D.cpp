@@ -11,6 +11,7 @@ const std::string Text2D::SAMPLER_UNIFORM_NAME = "fontSampler";
 
 Text2D::Text2D(const std::string& fontTexturePath, size_t symbolSize, Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager) :
 Geometry(vertexShader, fragmentShader, bufferManager) {
+    printf("Text constructor\n");
     this->symbolSize = symbolSize;
     fontTexture.load(fontTexturePath);
     fontTexture.prepareTexture();
@@ -62,13 +63,12 @@ void Text2D::applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& p
 
 
 void Text2D::preRender() {
+    Geometry::preRender();
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, fontTexture.getTextureId());
     shaderManager.addUniform(SAMPLER_UNIFORM_NAME, 0);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    Geometry::preRender();
 }
 
 void Text2D::postRender() {
