@@ -10,10 +10,10 @@ This project uses [Git Flow](http://danielkummer.github.io/git-flow-cheatsheet/)
 - You will need to build [SOIL2](https://bitbucket.org/SpartanJ/soil2) library and place it into `lib` directory.
 - To compile this project you will need to run CMake.
 
-## Examples
-Currently there is only one example of LOGLE usage. See `Example.cpp` at the root of the repository.
-
 ```
 > cmake .
 > make
 ```
+
+## Examples
+Currently there is only one example of LOGLE usage. See `Example.cpp` at the root of the repository. All example binaries are placed at `bin` directory after running `make`. 
