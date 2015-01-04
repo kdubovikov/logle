@@ -8,14 +8,15 @@
 #include "Texture.h"
 
 bool Texture::load(const std::string& imagePath) {
+    
     textureId = SOIL_load_OGL_texture(imagePath.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-            SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
+            SOIL_FLAG_DDS_LOAD_DIRECT);
+    printf("Texture %s loaded, id - %d\n", imagePath.c_str(), textureId);
     return textureId == 0;
 }
 
 bool Texture::customLoadDDS(const std::string& imagePath) {
-
+    printf("Loading texture %s\n", imagePath.c_str());
     unsigned char header[124];
 
     FILE *fp;
@@ -33,6 +34,7 @@ bool Texture::customLoadDDS(const std::string& imagePath) {
     fread(filecode, 1, 4, fp);
     if (strncmp(filecode, "DDS ", 4) != 0) {
         fclose(fp);
+        printf("Texture format not supported\n");
         return 0;
     }
 
@@ -68,13 +70,14 @@ bool Texture::customLoadDDS(const std::string& imagePath) {
             format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
             break;
         default:
+            printf("Texture format not supported\n");
             free(buffer);
             return 0;
     }
 
     // Create one OpenGL texture
     glGenTextures(1, &textureId);
-
+    printf("Tex id - %d %s\n", textureId, imagePath.c_str());
     // "Bind" the newly created texture : all future texture functions will modify this texture
     glBindTexture(GL_TEXTURE_2D, textureId);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

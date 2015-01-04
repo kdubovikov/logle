@@ -10,7 +10,8 @@
 #include "UniformManager.h"
 
 UniformManager::UniformManager(const GLuint shaderProgramId) :
-shaderProgramId(shaderProgramId) {
+shaderProgramId(shaderProgramId) 
+{
 }
 
 void UniformManager::addMatrix4(const std::string& uniformName, const glm::mat4& matrix) {
@@ -28,19 +29,19 @@ void UniformManager::addSampler(const std::string& uniformName, GLint number) {
     glUniform1i(uniformId, number);
 }
 
+void UniformManager::addFloat(const std::string& uniformName, GLfloat number) {
+    GLuint uniformId = createUniform(uniformName);
+    glUniform1f(uniformId, number);
+}
 
 GLuint UniformManager::createUniform(const std::string& uniformName) {
     GLuint uniformId = glGetUniformLocation(shaderProgramId, uniformName.c_str());
-    uniformIdMap[uniformName] = uniformId;
+    uniformResourceManager.addResource(uniformName, uniformId);
     return uniformId;
 }
 
 GLuint UniformManager::getUniformId(const std::string& uniformName) {
-    if (uniformIdMap.count(uniformName) > 0) {
-        return uniformIdMap[uniformName];
-    } else {
-        return -1;
-    }
+    uniformResourceManager.getResource(uniformName);
 }
 
 
