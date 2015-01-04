@@ -31,7 +31,7 @@ add_subdirectory(render)
 add_subdirectory(input)
 include_directories(core shader render input glfw-3.0.4/include glm .)
 
-add_executable(example ModelLoading.cpp)
+add_executable(example Example.cpp)
 
 if(UNIX)
 	message(STATUS "Linking libraries for linux...")
