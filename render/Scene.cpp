@@ -23,7 +23,8 @@ void Scene::render() {
     camera.get()->applyTransformation();
     
     for (Geometry& object : objects) {
-        object.applyTransformation(camera.get()->getViewMatrix(), camera.get()->getProjectionMatrix());
+        object.prepare();
+        object.applyUniforms(camera.get()->getViewMatrix(), camera.get()->getProjectionMatrix());
         
         StaticMesh* staticMesh = dynamic_cast<StaticMesh*>(&object);
         if (staticMesh != NULL) {

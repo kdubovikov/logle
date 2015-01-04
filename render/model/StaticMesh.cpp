@@ -3,8 +3,8 @@
 const std::string StaticMesh::SAMPLER_UNIFORM_NAME = "textureSampler";
 const std::string StaticMesh::NORMAL_BUFFER_NAME = "normalBuffer";
 
-StaticMesh::StaticMesh(const std::string& modelPath, Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager) : 
- Geometry::Geometry(vertexShader, fragmentShader, bufferManager) {
+StaticMesh::StaticMesh(const std::string& modelPath, ShaderManager& shaderManager, BufferManager& bufferManager) :
+ Geometry::Geometry(shaderManager, bufferManager) {
     loadModel(modelPath);
 }
 

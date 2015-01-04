@@ -21,8 +21,8 @@ private:
 
     virtual void preRender();
     virtual void postRender();
-    virtual void applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
+    virtual void applyUniforms(const glm::mat4 &viewMatrix, const glm::mat4 &projectionMatrix);
 public:
-    Text2D(const std::string& fontTexturePath, size_t symbolSize, Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager);
+    Text2D(const std::string& fontTexturePath, size_t symbolSize, ShaderManager& shaderManager, BufferManager& bufferManager);
     void print(const std::string& text, GLuint x, GLuint y);
 };

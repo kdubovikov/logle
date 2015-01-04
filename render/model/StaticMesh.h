@@ -27,7 +27,7 @@ private:
     virtual void postRender();
     
 public:
-    StaticMesh(const std::string& modelPath, Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager);
+    StaticMesh(const std::string& modelPath, ShaderManager& shaderManager, BufferManager& bufferManager);
     void prepareTexture(const std::string &imagePath);
     void prepareDDSTextureCustom(const std::string &imagePath);
     void prepareLightSource(std::unique_ptr<LightSource>& light);

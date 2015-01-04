@@ -44,16 +44,21 @@ int main(void) {
     std::string fshaderFile("../shaders/simple_shading/shading.frag");
     Shader vshader(vshaderFile, GL_VERTEX_SHADER);
     Shader fshader(fshaderFile, GL_FRAGMENT_SHADER);
+
+    ShaderManager simpleShadingManager;
+    simpleShadingManager.add(vshader);
+    simpleShadingManager.add(fshader);
+    simpleShadingManager.compileAndLink();
     
     BufferManager bufferManager;
     
     std::string modelPath = "./rsc/models/suzanne.obj";
-    StaticMesh suzanne(modelPath, vshader, fshader, bufferManager);
+    StaticMesh suzanne(modelPath, simpleShadingManager, bufferManager);
     
     std::string texturePath("./rsc/models/uvmap.DDS");
     suzanne.prepareTexture(texturePath);
     
-    StaticMesh suzanne2(modelPath, vshader, fshader, bufferManager);
+    StaticMesh suzanne2(modelPath, simpleShadingManager, bufferManager);
     suzanne2.prepareTexture(texturePath);
     
     std::unique_ptr<LightSource> light(new LightSource());
@@ -74,23 +79,28 @@ int main(void) {
     std::string fontTexturePath("../textures/Holstein.DDS");
     Shader fontVertexShader(fontVertexShaderPath, GL_VERTEX_SHADER);
     Shader fontFragmentShader(fontFragmentShaderPath, GL_FRAGMENT_SHADER);
-    
-    Text2D text(fontTexturePath, 60, fontVertexShader, fontFragmentShader, bufferManager);
-    
+
+    ShaderManager fontShaderManager;
+    fontShaderManager.add(fontVertexShader);
+    fontShaderManager.add(fontFragmentShader);
+    fontShaderManager.compileAndLink();
+
+    Text2D text(fontTexturePath, 60, fontShaderManager, bufferManager);
+
     std::string textToPrint("test text");
     text.print(textToPrint, 10, 100);
-    
+
     Scene scene;
     scene.setCamera(camera);
     scene.setInputManager(inputManager);
     scene.setLightSource(light);
     
-    suzanne.translate(glm::vec3(0.0f, 3.0f, 0.0f));
+    suzanne.translate(glm::vec3(-1.0f, 3.0f, 0.0f));
+    suzanne2.translate(glm::vec3(1.0f, 1.0f, 1.0f));
     scene.addObject(suzanne);
     scene.addObject(suzanne2);
     scene.addObject(text);
 
-    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

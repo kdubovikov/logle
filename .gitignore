@@ -9,8 +9,18 @@ Makefile
 nbproject/**
 msvs/**
 
-*.cbp
+# CMake files
 *.cmake
+
+# CodeBlocks project files
+*.cbp
+
+# Eclipse project files
+*.cproject
+*.project
+
+# CLion project files
+.idea
 
 # Compiled Object files
 *.slo
@@ -27,9 +37,6 @@ msvs/**
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-
 # Compiled Static libraries
 *.lai
 *.la
@@ -40,3 +47,7 @@ msvs/**
 *.exe
 *.out
 *.app
+
+# Misc
+grel
+log.txt

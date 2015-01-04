@@ -23,6 +23,9 @@ public:
     void add(Shader& shader);
     CompilationResult compileShaders();
     CompilationResult link();
+    void compileAndLink();
+    void enable();
+    void disable();
     GLuint getShaderProgramId();
     ~ShaderManager();
 };

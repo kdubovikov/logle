@@ -53,6 +53,33 @@ CompilationResult ShaderManager::link() {
     return result;
 }
 
+void ShaderManager::compileAndLink() {
+    // TODO: add some kind of AbstractResult class and return status
+    CompilationResult shaderCompilationResult = compileShaders();
+
+    if (shaderCompilationResult.status == CompilationResult::ERROR) {
+        printf("Compile Error - %s \n", shaderCompilationResult.fileName.c_str());
+        printf("Compile Error - %s \n", shaderCompilationResult.errorMessage.c_str());
+        return;
+    }
+
+    CompilationResult linkResult = link();
+
+    if (linkResult.status == CompilationResult::ERROR) {
+        printf("Link Error - %s \n", linkResult.errorMessage.c_str());
+        return;
+    }
+}
+
+
+void ShaderManager::enable() {
+    glUseProgram(shaderProgramId);
+}
+
+void ShaderManager::disable() {
+    glUseProgram(0);
+}
+
 CompilationResult ShaderManager::checkLinkResults() {
     GLint result = GL_FALSE;
     glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &result);
@@ -80,6 +107,7 @@ GLuint ShaderManager::getShaderProgramId() {
 
 ShaderManager::~ShaderManager() {
     for (Shader shader : shaders) {
+        glDetachShader(shaderProgramId, shader.getShaderId());
         glDeleteShader(shader.getShaderId());
     }
     

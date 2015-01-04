@@ -27,7 +27,7 @@ protected:
     static const std::string NORMAL_BUFFER_NAME;
     static const std::string UV_BUFFER_NAME;
     
-    ShaderManager shaderManager;
+    ShaderManager& shaderManager;
     BufferManager& bufferManager;
     
     std::vector<glm::vec3> verticies;
@@ -43,9 +43,9 @@ protected:
     virtual void postRender();
     virtual void prepareBuffers();
 public:
-    Geometry(Shader& vertexShader, Shader& fragmentShader, BufferManager& bufferManager);
-    void prepareShaders();
-    virtual void applyTransformation(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
+    Geometry(ShaderManager& shaderManager, BufferManager& bufferManager);
+    void prepare();
+    virtual void applyUniforms(const glm::mat4 &viewMatrix, const glm::mat4 &projectionMatrix);
     void translate(glm::vec3 to);
     virtual void render();
     ShaderManager& getShaderManager();
