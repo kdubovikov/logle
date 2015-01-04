@@ -3,10 +3,18 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-reorder -std=c++11")
 project(opengl-tutorials)
 
+# Config variable for CLion IDE. Makes CLion place output files in $HOME/Projects/opengl-tutorials/bin for relative paths in examples to work
+set(LOGLE_CLION_CONFIG ON)
+
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+if(LOGLE_CLION_CONFIG)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $ENV{HOME}/Projects/opengl-tutorials/bin)
+else()
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+endif()
 
 find_package(OpenGL REQUIRED)
 if(NOT OPENGL_FOUND)
